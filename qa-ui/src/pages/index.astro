@@ -1,0 +1,13 @@
+---
+import Layout from "../layout/Layout.astro";
+import TestButton from "../components/TestButton.svelte";
+import CourseList from "../components/CourseList.svelte";
+
+const response = await fetch("http://qa-api:7777/courses");
+const courses = await response.json();
+---
+
+<Layout>
+  <TestButton client:only={"svelte"} />
+  <CourseList {courses} />
+</Layout>

@@ -1,0 +1,14 @@
+---
+import Layout from "../../layout/Layout.astro";
+import AnswerList from "../../components/AnswerList.svelte";
+
+const courseCode = Astro.params.courseCode;
+const questionId = Astro.params.questionId;
+
+const response = await fetch(`http://qa-api:7777/answers/${questionId}`);
+const answers = [];
+---
+
+<Layout>
+  <AnswerList {courseCode} {questionId} {answers} />
+</Layout>
