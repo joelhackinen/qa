@@ -29,9 +29,9 @@
       for={id}
       class="
         absolute z-10 bg-white font-semibold hover:cursor-text left-1 px-1
-        -top-2.5 scale-75
-        peer-focus:-top-2.5 peer-focus:scale-75 peer-focus:left-0
-        peer-placeholder-shown:top-2 peer-placeholder-shown:scale-100
+        -top-2 text-xs
+        peer-focus:-top-2 peer-focus:text-xs peer-focus:left-1
+        peer-placeholder-shown:top-2 peer-placeholder-shown:text-base
         transition-all
       "
     >
@@ -42,9 +42,9 @@
     <label
       for={id}
       class="
-        absolute bg-white font-semibold hover:cursor-text left-1 px-1 scale-75
-        top-auto -bottom-2
-        peer-focus:top-auto peer-focus:-bottom-2
+        absolute bg-white font-semibold hover:cursor-text left-1 px-1 text-xs
+        top-auto -bottom-1
+        peer-focus:top-auto peer-focus:-bottom-1
         peer-placeholder-shown:top-2 peer-placeholder-shown:bottom-auto
         transition-all
       "
