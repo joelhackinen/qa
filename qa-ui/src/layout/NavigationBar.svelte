@@ -1,9 +1,10 @@
 <script>
+  const INDEX_NAME = "courses";
   export let pathname = "/";
 
   const slicedPath = pathname.slice(1, pathname.length);
 
-  const parts = slicedPath === "" ? ["home"] : ["home", ...slicedPath.split("/")];
+  const parts = slicedPath === "" ? [INDEX_NAME] : [INDEX_NAME, ...slicedPath.split("/")];
 </script>
 
 <div class="flex flex-nowrap font-semibold gap-1 p-4 items-center">

@@ -1,6 +1,7 @@
 ---
 import Path from "./NavigationBar.svelte";
 import Header from "./Header.svelte";
+import UserId from "../components/UserId.svelte";
 ---
 
 <html lang="en">
@@ -12,7 +13,9 @@ import Header from "./Header.svelte";
     <title>Questions and answers</title>
   </head>
   <body>
-    <Header client:only={"svelte"} />
+    <Header>
+      <UserId client:only={"svelte"} />
+    </Header>
     <div class="container mx-auto">
       <Path pathname={Astro.url.pathname} />
       <slot />
