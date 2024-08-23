@@ -7,11 +7,11 @@
   const parts = slicedPath === "" ? [INDEX_NAME] : [INDEX_NAME, ...slicedPath.split("/")];
 </script>
 
-<div class="flex flex-nowrap font-semibold gap-1 p-4 items-center">
+<div class="flex flex-nowrap font-semibold gap-1 p-4 items-center {$$restProps.class} font-mono">
   {#each parts as part, i}
     /
     <a
-      class={`bg-gray-400 rounded-md px-1 ${i === parts.length-1 && "underline"} whitespace-nowrap`}
+      class={`bg-gray-400 rounded-md px-1 ${i === parts.length-1 && "underline"} truncate`}
       href={"/" + parts.slice(1, i+1).join("/")}
     >
       {part}

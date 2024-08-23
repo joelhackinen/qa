@@ -1,6 +1,3 @@
-<script>
-</script>
-
-<nav class="p-4 mb-4 shadow text-2xl text-gray-700">
+<nav class="p-4 text-2xl text-gray-700 bg-white {$$restProps.class}">
   Hello <slot />
 </nav>

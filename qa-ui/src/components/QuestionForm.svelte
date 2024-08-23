@@ -1,20 +1,16 @@
 <script>
   import Button from "./Button.svelte";
-  import Input from "./Input.svelte";
   import TextArea from "./TextArea.svelte";
 
-  let title = "";
+  export let courseCode;
   let question = "";
 </script>
 
 <form
-  class="flex flex-col xs:flex-row gap-4 p-4"
+  class="flex flex-row gap-4 items-center w-full ml-1"
   action="/api/"
   method="post"
 >
-  <div class="flex flex-col gap-y-4 w-full">
-    <Input bind:body={title} id="title-input" label="Title" maxLength=50 />
-    <TextArea bind:body={question} id="question-input" label="Question" maxLength=500 />
-  </div>
-  <Button class="w-fit" />
+  <TextArea bind:body={question} id="question-input" label="Add a question to {courseCode.toUpperCase()}" maxLength=500 />
+  <Button class="w-fit h-fit" />
 </form>

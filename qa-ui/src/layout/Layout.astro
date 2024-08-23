@@ -1,5 +1,5 @@
 ---
-import Path from "./NavigationBar.svelte";
+import NavigationBar from "./NavigationBar.svelte";
 import Header from "./Header.svelte";
 import UserId from "../components/UserId.svelte";
 ---
@@ -13,11 +13,14 @@ import UserId from "../components/UserId.svelte";
     <title>Questions and answers</title>
   </head>
   <body>
-    <Header>
-      <UserId client:only={"svelte"} />
-    </Header>
-    <div class="container mx-auto">
-      <Path pathname={Astro.url.pathname} />
+    <div class="sticky top-0 z-10 border-b">
+      <Header class="max-w-screen-lg mx-auto" >
+        <UserId client:only={"svelte"} />
+      </Header>
+    </div>
+    
+    <div class="max-w-screen-lg mx-auto">
+      <NavigationBar class="sticky top-[61px] z-10 bg-white" pathname={Astro.url.pathname} />
       <slot />
     </div>
   </body>

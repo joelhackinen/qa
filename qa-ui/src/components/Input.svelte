@@ -14,7 +14,7 @@
     id={id}
     name={id}
     type="text"
-    class="appearance-none w-full peer border-2 rounded-md p-2 placeholder-transparent"
+    class="appearance-none w-full peer border-2 rounded-md p-2 placeholder-transparent text-sm"
     placeholder=""
     maxlength="{maxLength}"
     bind:value={body}
@@ -23,7 +23,7 @@
     <label
       for={id}
       class="
-        absolute z-10 bg-white font-semibold hover:cursor-text left-1 px-1
+        absolute z-10 bg-white font-semibold hover:cursor-text left-1 px-0.5
         -top-2 text-xs
         peer-focus:-top-2 peer-focus:text-xs
         peer-placeholder-shown:top-2 peer-placeholder-shown:text-base
@@ -37,9 +37,9 @@
     <label
       for={id}
       class="
-        absolute bg-white font-semibold hover:cursor-text left-1 px-1 text-xs
-        top-auto -bottom-2.5
-        peer-focus:top-auto peer-focus:-bottom-2.5
+        absolute bg-white font-semibold hover:cursor-text left-1 px-0.5 text-xs
+        top-auto -bottom-2
+        peer-focus:top-auto peer-focus:-bottom-2
         peer-placeholder-shown:top-2 peer-placeholder-shown:bottom-auto
         transition-all
       "
