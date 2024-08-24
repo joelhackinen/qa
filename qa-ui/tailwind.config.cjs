@@ -6,6 +6,9 @@ module.exports = {
 			screens: {
 				'xs': '480px',
 			},
+			blur: {
+				xs: '1px',
+			},
 		},
 	},
 	plugins: [],

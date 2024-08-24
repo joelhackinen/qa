@@ -12,7 +12,7 @@ INSERT INTO
   ) VALUES (
     'CS-E4770',
     'Node.js install',
-    'How do I install Node???'
+    'How do I install Node???How do I install Node???How do I install Node???How do I install Node???'
   );
 
 INSERT INTO

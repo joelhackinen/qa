@@ -11,7 +11,8 @@ const questions = await response.json();
 ---
 
 <Layout>
-  <QuestionList client:load {courseCode} {questions} class="mb-4" />
+  <QuestionList client:load {courseCode} {questions} class="flex-grow" />
+  <div class="bg-white h-56" />
   <Footer>
     <QuestionForm {courseCode} client:only="svelte" />
   </Footer>

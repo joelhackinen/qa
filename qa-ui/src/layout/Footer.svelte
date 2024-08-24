@@ -1,10 +1,8 @@
 <footer
   class="
-    fixed -bottom-10 left-1/2 transform -translate-x-1/2 w-full max-w-screen-md
-    hover:bottom-0
-    focus-within:bottom-0
+    fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-screen-md
     transition-all
-    opacity-35
+    opacity-40
     hover:opacity-100
     has-[:placeholder-shown]:[&:not(:hover)]:opacity-100
     focus-within:opacity-100

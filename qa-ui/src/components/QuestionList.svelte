@@ -5,27 +5,32 @@
   export let questions;
 
   let qs = questions;
-
+  
   onMount(() => {
-    for (let i = 0; i < 20; i++) {
-      qs = qs.concat({ id: 222, title: "mororor", body: "hahahaha" });
-    }
-    
+    qs = qs.concat({ id: Math.random(), body: "How do I install Deno??How do I install Deno??How do I install Deno??How do I install Deno??"})
   });
 </script>
 
 <div class="flex flex-col p-2 {$$restProps.class}">
-  {#each qs as question}
-    <a
-      class="m-1 border-2 px-2 py-2 rounded-md hover:bg-gray-300 text-left truncate"
-      href={`/${courseCode}/${question.id}`}
-    >
-      <span class="text-gray-500 font-bold">
-        {question.title}
-      </span>
-      <span class="font-semibold">
-        {question.body}
-      </span>
-    </a>
+  {#each qs as q}
+    <div class="flex justify-between items-center m-1 rounded-md border-2 bg-white hover:bg-gray-200">
+      <input id={q.id} type="checkbox" class="order-last hidden peer" />
+      <label for={q.id} class="bg-white rounded-full mr-2 hover:bg-blue-300 peer-checked:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4" >
+          <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+        </svg>   
+      </label>
+      <label for={q.id} class="bg-white rounded-full mr-2 hover:bg-blue-300 hidden peer-checked:block">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 rotate-180" >
+          <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+        </svg>   
+      </label>
+      <a
+        class="flex-grow order-first font-semibold p-2 peer-[&:not(:checked)]:truncate"
+        href={`/${courseCode}/${q.id}`}
+      >
+        {q.body}
+      </a>
+    </div>
   {/each}
 </div>

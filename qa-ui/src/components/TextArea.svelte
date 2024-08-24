@@ -32,6 +32,7 @@
     bind:value={body}
     on:input={adjustHeight}
     placeholder=""
+    spellcheck="false"
   />
   {#if label}
     <label

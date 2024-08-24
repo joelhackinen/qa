@@ -7,7 +7,7 @@
   const parts = slicedPath === "" ? [INDEX_NAME] : [INDEX_NAME, ...slicedPath.split("/")];
 </script>
 
-<div class="flex flex-nowrap font-semibold gap-1 p-4 items-center {$$restProps.class} font-mono">
+<div class="flex flex-nowrap font-semibold gap-1 items-center font-mono">
   {#each parts as part, i}
     /
     <a
