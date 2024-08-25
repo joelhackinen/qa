@@ -1,0 +1,55 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { parseMediaType } from "./parse_media_type.ts";
+import { getCharset } from "./get_charset.ts";
+import { formatMediaType } from "./format_media_type.ts";
+import { typeByExtension } from "./type_by_extension.ts";
+/**
+ * Given an extension or media type, return a full `Content-Type` or
+ * `Content-Disposition` header value.
+ *
+ * The function will treat the `extensionOrType` as a media type when it
+ * contains a `/`, otherwise it will process it as an extension, with or without
+ * the leading `.`.
+ *
+ * Returns `undefined` if unable to resolve the media type.
+ *
+ * > Note: a side effect of `deno/x/media_types` was that you could pass a file
+ * > name (e.g. `file.json`) and it would return the content type. This behavior
+ * > is intentionally not supported here. If you want to get an extension for a
+ * > file name, use `extname()` from `std/path/mod.ts` to determine the
+ * > extension and pass it here.
+ *
+ * @example
+ * ```ts
+ * import { contentType } from "@std/media-types/content-type";
+ *
+ * contentType(".json"); // "application/json; charset=UTF-8"
+ * contentType("text/html"); // "text/html; charset=UTF-8"
+ * contentType("text/html; charset=UTF-8"); // "text/html; charset=UTF-8"
+ * contentType("txt"); // "text/plain; charset=UTF-8"
+ * contentType("foo"); // undefined
+ * contentType("file.json"); // undefined
+ * ```
+ */ export function contentType(extensionOrType) {
+  try {
+    const [mediaType, params = {}] = extensionOrType.includes("/") ? parseMediaType(extensionOrType) : [
+      typeByExtension(extensionOrType),
+      undefined
+    ];
+    if (!mediaType) {
+      return undefined;
+    }
+    if (!("charset" in params)) {
+      const charset = getCharset(mediaType);
+      if (charset) {
+        params.charset = charset;
+      }
+    }
+    return formatMediaType(mediaType, params);
+  } catch  {
+  // just swallow returning undefined
+  }
+  return undefined;
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImh0dHBzOi8vanNyLmlvL0BzdGQvbWVkaWEtdHlwZXMvMC4yMjMuMC9jb250ZW50X3R5cGUudHMiXSwic291cmNlc0NvbnRlbnQiOlsiLy8gQ29weXJpZ2h0IDIwMTgtMjAyNCB0aGUgRGVubyBhdXRob3JzLiBBbGwgcmlnaHRzIHJlc2VydmVkLiBNSVQgbGljZW5zZS5cbi8vIFRoaXMgbW9kdWxlIGlzIGJyb3dzZXIgY29tcGF0aWJsZS5cblxuaW1wb3J0IHsgcGFyc2VNZWRpYVR5cGUgfSBmcm9tIFwiLi9wYXJzZV9tZWRpYV90eXBlLnRzXCI7XG5pbXBvcnQgeyBnZXRDaGFyc2V0IH0gZnJvbSBcIi4vZ2V0X2NoYXJzZXQudHNcIjtcbmltcG9ydCB7IGZvcm1hdE1lZGlhVHlwZSB9IGZyb20gXCIuL2Zvcm1hdF9tZWRpYV90eXBlLnRzXCI7XG5pbXBvcnQgdHlwZSB7IGRiIH0gZnJvbSBcIi4vX2RiLnRzXCI7XG5pbXBvcnQgeyB0eXBlQnlFeHRlbnNpb24gfSBmcm9tIFwiLi90eXBlX2J5X2V4dGVuc2lvbi50c1wiO1xuXG4vKiogTUlNRS10eXBlcyBkYXRhYmFzZS4gKi9cbmV4cG9ydCB0eXBlIERCID0gdHlwZW9mIGRiO1xuLyoqIE1hcHMgY29udGVudCB0eXBlcyB0byB0aGVpciBjb3JyZXNwb25kaW5nIGZpbGUgZXh0ZW5zaW9ucy4gKi9cbmV4cG9ydCB0eXBlIENvbnRlbnRUeXBlVG9FeHRlbnNpb24gPSB7XG4gIC8qKlxuICAgKiBNYXBzIGVhY2ggY29udGVudCB0eXBlIGtleSB0byBpdHMgY29ycmVzcG9uZGluZyBmaWxlIGV4dGVuc2lvbi5cbiAgICovXG4gIFtLIGluIGtleW9mIERCXTogREJbS10gZXh0ZW5kcyB7IFwiZXh0ZW5zaW9uc1wiOiByZWFkb25seSBzdHJpbmdbXSB9XG4gICAgPyBEQltLXVtcImV4dGVuc2lvbnNcIl1bbnVtYmVyXVxuICAgIDogbmV2ZXI7XG59O1xuXG4vKiogS25vd24gZXh0ZW5zaW9uIG9yIHR5cGUuIFVzZWQgaW4ge0BsaW5rY29kZSBjb250ZW50VHlwZX0uICovXG5leHBvcnQgdHlwZSBLbm93bkV4dGVuc2lvbk9yVHlwZSA9XG4gIHwga2V5b2YgQ29udGVudFR5cGVUb0V4dGVuc2lvblxuICB8IENvbnRlbnRUeXBlVG9FeHRlbnNpb25ba2V5b2YgQ29udGVudFR5cGVUb0V4dGVuc2lvbl1cbiAgfCBgLiR7Q29udGVudFR5cGVUb0V4dGVuc2lvbltrZXlvZiBDb250ZW50VHlwZVRvRXh0ZW5zaW9uXX1gO1xuXG4vKipcbiAqIEdpdmVuIGFuIGV4dGVuc2lvbiBvciBtZWRpYSB0eXBlLCByZXR1cm4gYSBmdWxsIGBDb250ZW50LVR5cGVgIG9yXG4gKiBgQ29udGVudC1EaXNwb3NpdGlvbmAgaGVhZGVyIHZhbHVlLlxuICpcbiAqIFRoZSBmdW5jdGlvbiB3aWxsIHRyZWF0IHRoZSBgZXh0ZW5zaW9uT3JUeXBlYCBhcyBhIG1lZGlhIHR5cGUgd2hlbiBpdFxuICogY29udGFpbnMgYSBgL2AsIG90aGVyd2lzZSBpdCB3aWxsIHByb2Nlc3MgaXQgYXMgYW4gZXh0ZW5zaW9uLCB3aXRoIG9yIHdpdGhvdXRcbiAqIHRoZSBsZWFkaW5nIGAuYC5cbiAqXG4gKiBSZXR1cm5zIGB1bmRlZmluZWRgIGlmIHVuYWJsZSB0byByZXNvbHZlIHRoZSBtZWRpYSB0eXBlLlxuICpcbiAqID4gTm90ZTogYSBzaWRlIGVmZmVjdCBvZiBgZGVuby94L21lZGlhX3R5cGVzYCB3YXMgdGhhdCB5b3UgY291bGQgcGFzcyBhIGZpbGVcbiAqID4gbmFtZSAoZS5nLiBgZmlsZS5qc29uYCkgYW5kIGl0IHdvdWxkIHJldHVybiB0aGUgY29udGVudCB0eXBlLiBUaGlzIGJlaGF2aW9yXG4gKiA+IGlzIGludGVudGlvbmFsbHkgbm90IHN1cHBvcnRlZCBoZXJlLiBJZiB5b3Ugd2FudCB0byBnZXQgYW4gZXh0ZW5zaW9uIGZvciBhXG4gKiA+IGZpbGUgbmFtZSwgdXNlIGBleHRuYW1lKClgIGZyb20gYHN0ZC9wYXRoL21vZC50c2AgdG8gZGV0ZXJtaW5lIHRoZVxuICogPiBleHRlbnNpb24gYW5kIHBhc3MgaXQgaGVyZS5cbiAqXG4gKiBAZXhhbXBsZVxuICogYGBgdHNcbiAqIGltcG9ydCB7IGNvbnRlbnRUeXBlIH0gZnJvbSBcIkBzdGQvbWVkaWEtdHlwZXMvY29udGVudC10eXBlXCI7XG4gKlxuICogY29udGVudFR5cGUoXCIuanNvblwiKTsgLy8gXCJhcHBsaWNhdGlvbi9qc29uOyBjaGFyc2V0PVVURi04XCJcbiAqIGNvbnRlbnRUeXBlKFwidGV4dC9odG1sXCIpOyAvLyBcInRleHQvaHRtbDsgY2hhcnNldD1VVEYtOFwiXG4gKiBjb250ZW50VHlwZShcInRleHQvaHRtbDsgY2hhcnNldD1VVEYtOFwiKTsgLy8gXCJ0ZXh0L2h0bWw7IGNoYXJzZXQ9VVRGLThcIlxuICogY29udGVudFR5cGUoXCJ0eHRcIik7IC8vIFwidGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOFwiXG4gKiBjb250ZW50VHlwZShcImZvb1wiKTsgLy8gdW5kZWZpbmVkXG4gKiBjb250ZW50VHlwZShcImZpbGUuanNvblwiKTsgLy8gdW5kZWZpbmVkXG4gKiBgYGBcbiAqL1xuZXhwb3J0IGZ1bmN0aW9uIGNvbnRlbnRUeXBlPFxuICAvLyBXb3JrYXJvdW5kIHRvIGF1dG9jb21wbGV0ZSBmb3IgcGFyYW1ldGVyczogaHR0cHM6Ly9naXRodWIuY29tL21pY3Jvc29mdC9UeXBlU2NyaXB0L2lzc3Vlcy8yOTcyOSNpc3N1ZWNvbW1lbnQtNTY3ODcxOTM5XG4gIC8vIGRlbm8tbGludC1pZ25vcmUgYmFuLXR5cGVzXG4gIFQgZXh0ZW5kcyAoc3RyaW5nICYge30pIHwgS25vd25FeHRlbnNpb25PclR5cGUsXG4+KFxuICBleHRlbnNpb25PclR5cGU6IFQsXG4pOiBMb3dlcmNhc2U8VD4gZXh0ZW5kcyBLbm93bkV4dGVuc2lvbk9yVHlwZSA/IHN0cmluZyA6IHN0cmluZyB8IHVuZGVmaW5lZCB7XG4gIHRyeSB7XG4gICAgY29uc3QgW21lZGlhVHlwZSwgcGFyYW1zID0ge31dID0gZXh0ZW5zaW9uT3JUeXBlLmluY2x1ZGVzKFwiL1wiKVxuICAgICAgPyBwYXJzZU1lZGlhVHlwZShleHRlbnNpb25PclR5cGUpXG4gICAgICA6IFt0eXBlQnlFeHRlbnNpb24oZXh0ZW5zaW9uT3JUeXBlKSwgdW5kZWZpbmVkXTtcbiAgICBpZiAoIW1lZGlhVHlwZSkge1xuICAgICAgcmV0dXJuIHVuZGVmaW5lZCBhcyBMb3dlcmNhc2U8VD4gZXh0ZW5kcyBLbm93bkV4dGVuc2lvbk9yVHlwZSA/IHN0cmluZ1xuICAgICAgICA6IHN0cmluZyB8IHVuZGVmaW5lZDtcbiAgICB9XG4gICAgaWYgKCEoXCJjaGFyc2V0XCIgaW4gcGFyYW1zKSkge1xuICAgICAgY29uc3QgY2hhcnNldCA9IGdldENoYXJzZXQobWVkaWFUeXBlKTtcbiAgICAgIGlmIChjaGFyc2V0KSB7XG4gICAgICAgIHBhcmFtcy5jaGFyc2V0ID0gY2hhcnNldDtcbiAgICAgIH1cbiAgICB9XG4gICAgcmV0dXJuIGZvcm1hdE1lZGlhVHlwZShtZWRpYVR5cGUsIHBhcmFtcyk7XG4gIH0gY2F0Y2gge1xuICAgIC8vIGp1c3Qgc3dhbGxvdyByZXR1cm5pbmcgdW5kZWZpbmVkXG4gIH1cbiAgcmV0dXJuIHVuZGVmaW5lZCBhcyBMb3dlcmNhc2U8VD4gZXh0ZW5kcyBLbm93bkV4dGVuc2lvbk9yVHlwZSA/IHN0cmluZ1xuICAgIDogc3RyaW5nIHwgdW5kZWZpbmVkO1xufVxuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDBFQUEwRTtBQUMxRSxxQ0FBcUM7QUFFckMsU0FBUyxjQUFjLFFBQVEsd0JBQXdCO0FBQ3ZELFNBQVMsVUFBVSxRQUFRLG1CQUFtQjtBQUM5QyxTQUFTLGVBQWUsUUFBUSx5QkFBeUI7QUFFekQsU0FBUyxlQUFlLFFBQVEseUJBQXlCO0FBb0J6RDs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0NBMkJDLEdBQ0QsT0FBTyxTQUFTLFlBS2QsZUFBa0I7RUFFbEIsSUFBSTtJQUNGLE1BQU0sQ0FBQyxXQUFXLFNBQVMsQ0FBQyxDQUFDLENBQUMsR0FBRyxnQkFBZ0IsUUFBUSxDQUFDLE9BQ3RELGVBQWUsbUJBQ2Y7TUFBQyxnQkFBZ0I7TUFBa0I7S0FBVTtJQUNqRCxJQUFJLENBQUMsV0FBVztNQUNkLE9BQU87SUFFVDtJQUNBLElBQUksQ0FBQyxDQUFDLGFBQWEsTUFBTSxHQUFHO01BQzFCLE1BQU0sVUFBVSxXQUFXO01BQzNCLElBQUksU0FBUztRQUNYLE9BQU8sT0FBTyxHQUFHO01BQ25CO0lBQ0Y7SUFDQSxPQUFPLGdCQUFnQixXQUFXO0VBQ3BDLEVBQUUsT0FBTTtFQUNOLG1DQUFtQztFQUNyQztFQUNBLE9BQU87QUFFVCJ9

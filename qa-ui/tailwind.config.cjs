@@ -4,10 +4,13 @@ module.exports = {
 	theme: {
 		extend: {
 			screens: {
-				'xs': '480px',
+				xs: '480px',
 			},
 			blur: {
 				xs: '1px',
+			},
+			fontSize: {
+				xxs: ['10px', '14px'],
 			},
 		},
 	},

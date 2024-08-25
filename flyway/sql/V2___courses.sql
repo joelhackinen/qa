@@ -7,21 +7,21 @@ INSERT INTO courses (name, code) VALUES ('Full Stack Web Development D', 'CS-E46
 INSERT INTO
   questions (
     course_code,
-    title,
-    body
+    body,
+    user_id
   ) VALUES (
     'CS-E4770',
-    'Node.js install',
-    'How do I install Node???How do I install Node???How do I install Node???How do I install Node???'
+    'How do I install Node???How do I install Node???How do I install Node???How do I install Node???',
+    'abs'
   );
 
 INSERT INTO
   questions (
     course_code,
-    title,
-    body
+    body,
+    user_id
   ) VALUES (
     'CS-E4770',
-    'Node.js uninstall',
-    'How do I uninstall Node???'
+    'How do I uninstall Node???',
+    'abc'
   );

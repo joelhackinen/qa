@@ -1,0 +1,23 @@
+// Copyright 2018-2024 the oak authors. All rights reserved. MIT license.
+/** Memoisation of the feature detection of `Promise.withResolvers` */ const hasPromiseWithResolvers = "withResolvers" in Promise;
+/**
+ * Offloads to the native `Promise.withResolvers` when available.
+ *
+ * Currently Node.js does not support it, while Deno does.
+ */ export function createPromiseWithResolvers() {
+  if (hasPromiseWithResolvers) {
+    return Promise.withResolvers();
+  }
+  let resolve;
+  let reject;
+  const promise = new Promise((res, rej)=>{
+    resolve = res;
+    reject = rej;
+  });
+  return {
+    promise,
+    resolve: resolve,
+    reject: reject
+  };
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImh0dHBzOi8vanNyLmlvL0BvYWsvb2FrLzE2LjEuMC91dGlscy9jcmVhdGVfcHJvbWlzZV93aXRoX3Jlc29sdmVycy50cyJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyBDb3B5cmlnaHQgMjAxOC0yMDI0IHRoZSBvYWsgYXV0aG9ycy4gQWxsIHJpZ2h0cyByZXNlcnZlZC4gTUlUIGxpY2Vuc2UuXG5cbi8qKiBNZW1vaXNhdGlvbiBvZiB0aGUgZmVhdHVyZSBkZXRlY3Rpb24gb2YgYFByb21pc2Uud2l0aFJlc29sdmVyc2AgKi9cbmNvbnN0IGhhc1Byb21pc2VXaXRoUmVzb2x2ZXJzID0gXCJ3aXRoUmVzb2x2ZXJzXCIgaW4gUHJvbWlzZTtcblxuLyoqXG4gKiBPZmZsb2FkcyB0byB0aGUgbmF0aXZlIGBQcm9taXNlLndpdGhSZXNvbHZlcnNgIHdoZW4gYXZhaWxhYmxlLlxuICpcbiAqIEN1cnJlbnRseSBOb2RlLmpzIGRvZXMgbm90IHN1cHBvcnQgaXQsIHdoaWxlIERlbm8gZG9lcy5cbiAqL1xuZXhwb3J0IGZ1bmN0aW9uIGNyZWF0ZVByb21pc2VXaXRoUmVzb2x2ZXJzPFQ+KCk6IFByb21pc2VXaXRoUmVzb2x2ZXJzPFQ+IHtcbiAgaWYgKGhhc1Byb21pc2VXaXRoUmVzb2x2ZXJzKSB7XG4gICAgcmV0dXJuIFByb21pc2Uud2l0aFJlc29sdmVyczxUPigpO1xuICB9XG4gIGxldCByZXNvbHZlO1xuICBsZXQgcmVqZWN0O1xuICBjb25zdCBwcm9taXNlID0gbmV3IFByb21pc2U8VD4oKHJlcywgcmVqKSA9PiB7XG4gICAgcmVzb2x2ZSA9IHJlcztcbiAgICByZWplY3QgPSByZWo7XG4gIH0pO1xuICByZXR1cm4geyBwcm9taXNlLCByZXNvbHZlOiByZXNvbHZlISwgcmVqZWN0OiByZWplY3QhIH07XG59XG4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEseUVBQXlFO0FBRXpFLG9FQUFvRSxHQUNwRSxNQUFNLDBCQUEwQixtQkFBbUI7QUFFbkQ7Ozs7Q0FJQyxHQUNELE9BQU8sU0FBUztFQUNkLElBQUkseUJBQXlCO0lBQzNCLE9BQU8sUUFBUSxhQUFhO0VBQzlCO0VBQ0EsSUFBSTtFQUNKLElBQUk7RUFDSixNQUFNLFVBQVUsSUFBSSxRQUFXLENBQUMsS0FBSztJQUNuQyxVQUFVO0lBQ1YsU0FBUztFQUNYO0VBQ0EsT0FBTztJQUFFO0lBQVMsU0FBUztJQUFVLFFBQVE7RUFBUTtBQUN2RCJ9

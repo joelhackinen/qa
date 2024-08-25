@@ -1,0 +1,15 @@
+// Copyright 2018-2024 the oak authors. All rights reserved. MIT license.
+/** Clones a state object, skipping any values that cannot be cloned. */ // deno-lint-ignore no-explicit-any
+export function cloneState(state) {
+  const clone = {};
+  for (const [key, value] of Object.entries(state)){
+    try {
+      const clonedValue = structuredClone(value);
+      clone[key] = clonedValue;
+    } catch  {
+    // we just no-op values that cannot be cloned
+    }
+  }
+  return clone;
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImh0dHBzOi8vanNyLmlvL0BvYWsvb2FrLzE2LjEuMC91dGlscy9jbG9uZV9zdGF0ZS50cyJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyBDb3B5cmlnaHQgMjAxOC0yMDI0IHRoZSBvYWsgYXV0aG9ycy4gQWxsIHJpZ2h0cyByZXNlcnZlZC4gTUlUIGxpY2Vuc2UuXG5cbi8qKiBDbG9uZXMgYSBzdGF0ZSBvYmplY3QsIHNraXBwaW5nIGFueSB2YWx1ZXMgdGhhdCBjYW5ub3QgYmUgY2xvbmVkLiAqL1xuLy8gZGVuby1saW50LWlnbm9yZSBuby1leHBsaWNpdC1hbnlcbmV4cG9ydCBmdW5jdGlvbiBjbG9uZVN0YXRlPFMgZXh0ZW5kcyBSZWNvcmQ8c3RyaW5nLCBhbnk+PihzdGF0ZTogUyk6IFMge1xuICBjb25zdCBjbG9uZSA9IHt9IGFzIFM7XG4gIGZvciAoY29uc3QgW2tleSwgdmFsdWVdIG9mIE9iamVjdC5lbnRyaWVzKHN0YXRlKSkge1xuICAgIHRyeSB7XG4gICAgICBjb25zdCBjbG9uZWRWYWx1ZSA9IHN0cnVjdHVyZWRDbG9uZSh2YWx1ZSk7XG4gICAgICBjbG9uZVtrZXkgYXMga2V5b2YgU10gPSBjbG9uZWRWYWx1ZTtcbiAgICB9IGNhdGNoIHtcbiAgICAgIC8vIHdlIGp1c3Qgbm8tb3AgdmFsdWVzIHRoYXQgY2Fubm90IGJlIGNsb25lZFxuICAgIH1cbiAgfVxuICByZXR1cm4gY2xvbmU7XG59XG4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEseUVBQXlFO0FBRXpFLHNFQUFzRSxHQUN0RSxtQ0FBbUM7QUFDbkMsT0FBTyxTQUFTLFdBQTBDLEtBQVE7RUFDaEUsTUFBTSxRQUFRLENBQUM7RUFDZixLQUFLLE1BQU0sQ0FBQyxLQUFLLE1BQU0sSUFBSSxPQUFPLE9BQU8sQ0FBQyxPQUFRO0lBQ2hELElBQUk7TUFDRixNQUFNLGNBQWMsZ0JBQWdCO01BQ3BDLEtBQUssQ0FBQyxJQUFlLEdBQUc7SUFDMUIsRUFBRSxPQUFNO0lBQ04sNkNBQTZDO0lBQy9DO0VBQ0Y7RUFDQSxPQUFPO0FBQ1QifQ==

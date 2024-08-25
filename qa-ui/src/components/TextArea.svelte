@@ -1,4 +1,5 @@
 <script>
+  const MAX_HEIGHT = 120;
   const MAXLENGTH_DEFAULT = -1;
 
   export let id;
@@ -10,7 +11,7 @@
 
   const adjustHeight = ({ currentTarget }) => {
     currentTarget.style.height = "auto";
-    if (currentTarget.scrollHeight > 96) {
+    if (currentTarget.scrollHeight > MAX_HEIGHT) {
       currentTarget.style.height = (currentTarget.scrollHeight) + "px";
       return;
     }
@@ -18,13 +19,13 @@
   };
 </script>
 
-<div class="relative w-full">
+<div class="relative w-full px-2 py-4 truncate {$$restProps.class}">
   <textarea
     class="
       appearance-none w-full peer resize-none text-base outline-none hover:cursor-pointer focus:cursor-text
-      ring-2 ring-offset-4 ring-gray-300 focus:ring-blue-400 rounded-md
-      transition-all duration-300
-      h-10 focus:h-24 [&:not(:placeholder-shown)]:h-24 max-h-48
+      ring-1 ring-offset-4 ring-gray-300 focus:ring-blue-400 rounded-md
+      transition-all duration-200 focus:delay-100
+      h-8 focus:h-[{MAX_HEIGHT}px] [&:not(:placeholder-shown)]:h-[{MAX_HEIGHT}px] max-h-60
     "
     id={id}
     name={id}
@@ -38,11 +39,12 @@
     <label
       for={id}
       class="
-        absolute z-10 bg-white hover:cursor-pointer peer-focus:cursor-text left-1 px-0.5 truncate
-        -top-3.5 text-xs
-        peer-focus:-top-3.5 peer-focus:text-xs peer-focus:left-1 peer-focus:text-black
-        peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500
-        transition-all
+        absolute z-10 bg-white hover:cursor-pointer peer-focus:cursor-text left-4 px-0.5 truncate
+        top-0.5 text-xs
+        peer-focus:top-0.5 peer-focus:text-xs peer-focus:text-black
+        peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500
+        transition-all duration-100
+        peer-[&:not(:focus)]:delay-200
       "
     >
       {label}
@@ -52,11 +54,9 @@
     <label
       for={id}
       class="
-        absolute bg-white font-semibold hover:cursor-text left-1 px-0.5 text-xs truncate
-        top-auto -bottom-2
-        peer-focus:top-auto peer-focus:-bottom-2
-        peer-placeholder-shown:top-2 peer-placeholder-shown:bottom-auto
-        transition-all
+        absolute bg-white font-semibold hover:cursor-text px-0.5 text-xs truncate
+        bottom-2 left-4
+        peer-[&:not(:focus)]:peer-placeholder-shown:hidden
       "
     >
       {remaining}

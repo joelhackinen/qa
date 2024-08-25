@@ -12,11 +12,15 @@ import Path from "./Path.svelte";
     <title>Questions and answers</title>
   </head>
   <body class="h-dvh">
-    <nav class="sticky top-0 z-10 border-b w-full bg-white p-2 mb-5">
-      <div class="flex items-center justify-between">
-        <div class="text-xl font-semibold truncate">
-          Hello
-          <UserId client:only="svelte" >
+    <nav class="sticky top-0 z-10 w-full bg-white p-2 mb-5 items-center">
+      <div class="flex items-center justify-between max-w-screen-lg mx-auto gap-x-4">
+        <div class="flex flex-col truncate">
+          <div class="text-2xl font-bold truncate">
+            Q&A platform
+          </div>
+          <div class="text-xs italic truncate ml-4">
+            Hello <UserId client:only="svelte" />
+          </div>
         </div>
         <Path pathname={Astro.url.pathname} />
       </div>

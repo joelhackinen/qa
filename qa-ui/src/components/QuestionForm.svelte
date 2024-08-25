@@ -1,16 +1,38 @@
 <script>
-  import Button from "./Button.svelte";
+  import { userUuid } from "../stores/stores";
   import TextArea from "./TextArea.svelte";
 
   export let courseCode;
   let question = "";
+
+  const handleSendQuestion = async () => {
+    const response = await fetch(`/api/questions/${courseCode}`, {
+      method: "post",
+      body: JSON.stringify({
+        question,
+      }),
+      headers: {
+        "Authorization": $userUuid,
+      },
+    });
+    question = "";
+
+    if (!response.ok) {
+      console.error("Error");
+    }
+  };
 </script>
 
-<form
-  class="flex flex-row gap-4 items-center w-full ml-1"
-  action="/api/"
-  method="post"
->
-  <TextArea bind:body={question} id="question-input" label="Add a question to {courseCode.toUpperCase()}" maxLength=500 />
-  <Button class="w-fit h-fit" />
-</form>
+<div class="flex flex-row gap-2 items-center w-full px-2 py-1">
+  <TextArea bind:body={question} id="question-input" label="Add a question to {courseCode.toUpperCase()}" maxLength=500 class="peer" />
+  <button
+    class="
+      w-fit h-fit bg-slate-900 shadow-md text-white font-semibold rounded-md p-2 hover:bg-black active:shadow-none
+      transition-all disabled:bg-slate-500 mb-1
+    "
+    disabled={!question}
+    on:click={handleSendQuestion}
+  >
+    Send
+  </button>
+</div>

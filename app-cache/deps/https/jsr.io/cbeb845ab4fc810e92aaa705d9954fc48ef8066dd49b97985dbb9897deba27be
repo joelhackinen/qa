@@ -1,0 +1,775 @@
+{
+  "manifest": {
+    "/server.ts": {
+      "size": 23205,
+      "checksum": "sha256-970f461571978d9ea91331c0910d73e647d6bbb2e8287115bd7da749e6e2e952"
+    },
+    "/unstable_signed_cookie.ts": {
+      "size": 3266,
+      "checksum": "sha256-185bb73e91186ce9a1691adc2b76c87b3333c95ccd0ab9df0537fc9c355a0cc1"
+    },
+    "/_negotiation/media_type.ts": {
+      "size": 4970,
+      "checksum": "sha256-87a1ecb22c1b268d0fa23d798e1ea238343505268cb1ff82bd038638de29ce31"
+    },
+    "/testdata/desktop.ini": {
+      "size": 195,
+      "checksum": "sha256-2c7e0f6873c5eadcdcb07a998cd174020c84ac3e4d3a9210f1dbbbe8a15d9d95"
+    },
+    "/testdata/tls/RootCA.crt": {
+      "size": 1147,
+      "checksum": "sha256-11a8d4377cfdfdc6fbffbf9aef9cb94a9e339604991d115053f54aa4a756c67e"
+    },
+    "/file_server_test.ts": {
+      "size": 31945,
+      "checksum": "sha256-9633439fc2999648e322b9f92149d161e6b468a34a3adef1c97b60eb905bf2a9"
+    },
+    "/testdata/user_agent/os-all.json": {
+      "size": 29442,
+      "checksum": "sha256-7465591920fb4b99a594a314d1ced905e7bcdff69c513e1be13436041d97dd36"
+    },
+    "/_negotiation/common.ts": {
+      "size": 1801,
+      "checksum": "sha256-051a9f6edd1ed69507df89bbc16fc1b13b7654b9b8fd38072ec33ae4c185fc13"
+    },
+    "/testdata/user_agent/device-all.json": {
+      "size": 105317,
+      "checksum": "sha256-47ab0afe26f11638ce27099fe8fa6bd710d3fff4199fc3af2aa8de0f7812be12"
+    },
+    "/_negotiation/language.ts": {
+      "size": 4150,
+      "checksum": "sha256-300a5c586f844c97f246ab72c948e9fde9a8f45e92ec08e1cc9a9df80259e2a3"
+    },
+    "/user_agent.ts": {
+      "size": 32011,
+      "checksum": "sha256-7c0df6b09e77e4134eb038e111b8f1f9660198cb10eb0229c4198d6419ce1070"
+    },
+    "/server_sent_event_stream.ts": {
+      "size": 2755,
+      "checksum": "sha256-f70024a189de756847fab0778b7da13170da3a09210b3dc494cab83c39a001ee"
+    },
+    "/mod.ts": {
+      "size": 2396,
+      "checksum": "sha256-5470f9e46139dc9201391289a14dd7382e563cdfeba9fd270572ed97c4cb566a"
+    },
+    "/etag_test.ts": {
+      "size": 3173,
+      "checksum": "sha256-2b4a5ce4d9089fb4e3cd1162a44c7974c25bab81e07ed4a75d1590b72dc69ac0"
+    },
+    "/cookie.ts": {
+      "size": 11278,
+      "checksum": "sha256-87da0113dfc4796e943ead9a9fc142f09e5b58c8cd8cd5cecd8e251c2f46265c"
+    },
+    "/file_server.ts": {
+      "size": 24343,
+      "checksum": "sha256-01ccbe2290444b3e99125d4710960d41a26fd7878377e4619023281b0ce8b9d5"
+    },
+    "/_mock_conn.ts": {
+      "size": 1288,
+      "checksum": "sha256-6c6f593bbb19d98010e54160a41edf44b73b7bf4e02f9aa5924ae40b0fc8b905"
+    },
+    "/testdata/tls/domains.txt": {
+      "size": 199,
+      "checksum": "sha256-fb061dc0d044dc680b9c90e0e724805f7f9f4b65619b384faa7bd7a846e67400"
+    },
+    "/etag.ts": {
+      "size": 6092,
+      "checksum": "sha256-453914b19114f80abdccde517eb3c5a1303eaeaca91e38911d1921ea2c8bc01a"
+    },
+    "/server_sent_event_stream_test.ts": {
+      "size": 2932,
+      "checksum": "sha256-c1e3aa68c0cf3b78c2d7610ac8c4015b25b101374e47587fe322afa7104a91dd"
+    },
+    "/testdata/user_agent/cpu-all.json": {
+      "size": 6254,
+      "checksum": "sha256-56c35c79170a3685fbc076726afab7038066c6a7a2ae69201e269f86f2ed2154"
+    },
+    "/testdata/hello.html": {
+      "size": 136,
+      "checksum": "sha256-701a1afcb9ce9246fdd96dd0cefa58ac0184e83afa8e8eb153aea8f42af2ed26"
+    },
+    "/testdata/tls/README.md": {
+      "size": 1481,
+      "checksum": "sha256-933cbcfa4955d621eedcca51c59632c1ba77a66b9feb9813269898992dbd2642"
+    },
+    "/negotiation.ts": {
+      "size": 5379,
+      "checksum": "sha256-923cef82d6fbfb3b3aaaf42bfbe1ae1a8ad87d31d2c7595abb74c71ce598cdce"
+    },
+    "/testdata/user_agent/browser-all.json": {
+      "size": 51879,
+      "checksum": "sha256-af2bd9b60e457c31c0dc4e78aa656c9b0219455fcc84bc063665b4d7d3b14cf0"
+    },
+    "/test.ts": {
+      "size": 94,
+      "checksum": "sha256-f2a169ccdffc8f01f277e3d4d71f9003f011c6404cebe85ee66e8339cdf4f641"
+    },
+    "/cookie_test.ts": {
+      "size": 14803,
+      "checksum": "sha256-43987c9d89d9489eb7f661fcd652f8793662c1f8f50d992ff6c0d0c0e8729ae5"
+    },
+    "/unstable_signed_cookie_test.ts": {
+      "size": 2168,
+      "checksum": "sha256-6f49cbb0ecea223a0cb569eebc84a3e867decf9652a857c4a408fa78887ac672"
+    },
+    "/testdata/test_empty_file.txt": {
+      "size": 0,
+      "checksum": "sha256-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/testdata/user_agent/engine-all.json": {
+      "size": 3992,
+      "checksum": "sha256-61360ae1b7ba14ab52f460b5503b7ae0a38a598f652198bb693c16c22cdef9d7"
+    },
+    "/negotiation_test.ts": {
+      "size": 4149,
+      "checksum": "sha256-4f962bc1fffb13a6a17536d2f6a2a75cf7246838ba75909ff701c94d6a9cbfc7"
+    },
+    "/status.ts": {
+      "size": 11543,
+      "checksum": "sha256-f1ac9f2fed434d93415213fdc359437a5d61a1236a25e6f60a9afeb4fc94faa2"
+    },
+    "/testdata/file_server_as_library.ts": {
+      "size": 201,
+      "checksum": "sha256-2fbcc523bf7e17efea31d76d537a76aac81a806d9e4c68048fc3a5849ccf2333"
+    },
+    "/testdata/tls/RootCA.key": {
+      "size": 1704,
+      "checksum": "sha256-500d6d1140db926f7210ce05242fcf8e1e44f1fcc52f674453c314bf91f07032"
+    },
+    "/testdata/test_file.txt": {
+      "size": 10034,
+      "checksum": "sha256-ff9f35c0695de5fb74d3642d04263344ff58f66ec095070b16e08ef4555c89da"
+    },
+    "/testdata/subdir-with-index/index.html": {
+      "size": 37,
+      "checksum": "sha256-7a74e785f7737fa4e405c655d542269241e2cf48843dea13d78cd22daa2c65df"
+    },
+    "/status_test.ts": {
+      "size": 2661,
+      "checksum": "sha256-aa55c3f8f6698bd5e498746ba6a0e730fd5c198cbb207a086f9c2b490237662f"
+    },
+    "/testdata/.dotfile": {
+      "size": 7,
+      "checksum": "sha256-082e8fb7d162138b8d839d6a1ff5a3957b44747dda70c9f12b2bb8fa94d42e7c"
+    },
+    "/user_agent_test.ts": {
+      "size": 3021,
+      "checksum": "sha256-941d2ced239783e273d388408fc06c5d283c96cdf32d4f0e31bb38a0f1da4ebe"
+    },
+    "/deno.json": {
+      "size": 461,
+      "checksum": "sha256-b48bfd1451051030f969ba7579db7ec654cf31e89f574d02ed1e27c1a9335558"
+    },
+    "/testdata/tls/localhost.crt": {
+      "size": 1245,
+      "checksum": "sha256-f03aed2154c7f5396d38c4183b8eba3d61b78149d52342eb8813776266278477"
+    },
+    "/testdata/tls/localhost.key": {
+      "size": 1708,
+      "checksum": "sha256-a2022d1b1dd1dc502538990c28a22a7094d26d8f5ba6282cbff4f9767fc5d7fa"
+    },
+    "/server_test.ts": {
+      "size": 44347,
+      "checksum": "sha256-bafec5185aca9eadb04ab0557f8b6b4f8af8966c958236f720bfd20ee2f2724b"
+    },
+    "/testdata/tls/RootCA.pem": {
+      "size": 1147,
+      "checksum": "sha256-11a8d4377cfdfdc6fbffbf9aef9cb94a9e339604991d115053f54aa4a756c67e"
+    },
+    "/_negotiation/encoding.ts": {
+      "size": 4301,
+      "checksum": "sha256-fdedea1145c1dea3b3de2d5217e8eb927e764083eebc8c52d09a1ed3d9bb7a93"
+    }
+  },
+  "moduleGraph1": {
+    "/server.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/async@^0.223.0/delay",
+          "specifierRange": [
+            [
+              1,
+              22
+            ],
+            [
+              1,
+              54
+            ]
+          ]
+        }
+      ]
+    },
+    "/etag.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/encoding@^0.223.0/base64",
+          "specifierRange": [
+            [
+              16,
+              45
+            ],
+            [
+              16,
+              81
+            ]
+          ]
+        }
+      ]
+    },
+    "/_negotiation/common.ts": {},
+    "/cookie.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/assert@^0.223.0/assert",
+          "specifierRange": [
+            [
+              5,
+              23
+            ],
+            [
+              5,
+              57
+            ]
+          ]
+        }
+      ]
+    },
+    "/_negotiation/language.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./common.ts",
+          "specifierRange": [
+            [
+              31,
+              58
+            ],
+            [
+              31,
+              71
+            ]
+          ]
+        }
+      ]
+    },
+    "/_negotiation/encoding.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./common.ts",
+          "specifierRange": [
+            [
+              31,
+              58
+            ],
+            [
+              31,
+              71
+            ]
+          ]
+        }
+      ]
+    },
+    "/negotiation.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./_negotiation/encoding.ts",
+          "specifierRange": [
+            [
+              10,
+              35
+            ],
+            [
+              10,
+              63
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./_negotiation/language.ts",
+          "specifierRange": [
+            [
+              11,
+              35
+            ],
+            [
+              11,
+              63
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./_negotiation/media_type.ts",
+          "specifierRange": [
+            [
+              12,
+              36
+            ],
+            [
+              12,
+              66
+            ]
+          ]
+        }
+      ]
+    },
+    "/_negotiation/media_type.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./common.ts",
+          "specifierRange": [
+            [
+              31,
+              58
+            ],
+            [
+              31,
+              71
+            ]
+          ]
+        }
+      ]
+    },
+    "/unstable_signed_cookie.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/encoding@^0.223.0/hex",
+          "specifierRange": [
+            [
+              2,
+              37
+            ],
+            [
+              2,
+              70
+            ]
+          ]
+        }
+      ]
+    },
+    "/mod.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./cookie.ts",
+          "specifierRange": [
+            [
+              64,
+              14
+            ],
+            [
+              64,
+              27
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./etag.ts",
+          "specifierRange": [
+            [
+              65,
+              14
+            ],
+            [
+              65,
+              25
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./status.ts",
+          "specifierRange": [
+            [
+              66,
+              14
+            ],
+            [
+              66,
+              27
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./negotiation.ts",
+          "specifierRange": [
+            [
+              67,
+              14
+            ],
+            [
+              67,
+              32
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./server.ts",
+          "specifierRange": [
+            [
+              68,
+              14
+            ],
+            [
+              68,
+              27
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./unstable_signed_cookie.ts",
+          "specifierRange": [
+            [
+              69,
+              14
+            ],
+            [
+              69,
+              43
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./server_sent_event_stream.ts",
+          "specifierRange": [
+            [
+              70,
+              14
+            ],
+            [
+              70,
+              45
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./user_agent.ts",
+          "specifierRange": [
+            [
+              71,
+              14
+            ],
+            [
+              71,
+              31
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./file_server.ts",
+          "specifierRange": [
+            [
+              72,
+              14
+            ],
+            [
+              72,
+              32
+            ]
+          ]
+        }
+      ]
+    },
+    "/server_sent_event_stream.ts": {},
+    "/user_agent.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/assert@^0.223.0/assert",
+          "specifierRange": [
+            [
+              13,
+              23
+            ],
+            [
+              13,
+              57
+            ]
+          ]
+        }
+      ]
+    },
+    "/file_server.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/path@^0.223.0/posix/join",
+          "specifierRange": [
+            [
+              33,
+              34
+            ],
+            [
+              33,
+              70
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/path@^0.223.0/posix/normalize",
+          "specifierRange": [
+            [
+              34,
+              44
+            ],
+            [
+              34,
+              85
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/path@^0.223.0/extname",
+          "specifierRange": [
+            [
+              35,
+              24
+            ],
+            [
+              35,
+              57
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/path@^0.223.0/join",
+          "specifierRange": [
+            [
+              36,
+              21
+            ],
+            [
+              36,
+              51
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/path@^0.223.0/relative",
+          "specifierRange": [
+            [
+              37,
+              25
+            ],
+            [
+              37,
+              59
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/path@^0.223.0/resolve",
+          "specifierRange": [
+            [
+              38,
+              24
+            ],
+            [
+              38,
+              57
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/path@^0.223.0/constants",
+          "specifierRange": [
+            [
+              39,
+              34
+            ],
+            [
+              39,
+              69
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/media-types@^0.223.0/content-type",
+          "specifierRange": [
+            [
+              40,
+              28
+            ],
+            [
+              40,
+              73
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./etag.ts",
+          "specifierRange": [
+            [
+              41,
+              39
+            ],
+            [
+              41,
+              50
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./status.ts",
+          "specifierRange": [
+            [
+              47,
+              7
+            ],
+            [
+              47,
+              20
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/streams@^0.223.0/byte-slice-stream",
+          "specifierRange": [
+            [
+              48,
+              32
+            ],
+            [
+              48,
+              78
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/cli@^0.223.0/parse-args",
+          "specifierRange": [
+            [
+              49,
+              26
+            ],
+            [
+              49,
+              61
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/fmt@^0.223.0/colors",
+          "specifierRange": [
+            [
+              50,
+              20
+            ],
+            [
+              50,
+              51
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./deno.json",
+          "specifierRange": [
+            [
+              51,
+              23
+            ],
+            [
+              51,
+              36
+            ]
+          ],
+          "importAttributes": {
+            "known": {
+              "type": "json"
+            }
+          }
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:/@std/fmt@^0.223.0/bytes",
+          "specifierRange": [
+            [
+              52,
+              38
+            ],
+            [
+              52,
+              68
+            ]
+          ]
+        }
+      ]
+    },
+    "/status.ts": {}
+  },
+  "exports": {
+    ".": "./mod.ts",
+    "./cookie": "./cookie.ts",
+    "./etag": "./etag.ts",
+    "./file-server": "./file_server.ts",
+    "./negotiation": "./negotiation.ts",
+    "./server": "./server.ts",
+    "./server-sent-event-stream": "./server_sent_event_stream.ts",
+    "./status": "./status.ts",
+    "./unstable-signed-cookie": "./unstable_signed_cookie.ts",
+    "./user-agent": "./user_agent.ts"
+  }
+}

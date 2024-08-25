@@ -3,7 +3,7 @@ CREATE OR REPLACE FUNCTION update_question_timestamp()
   BEGIN
     UPDATE questions
     SET updated_at = NOW()
-    WHERE question_id = NEW.votable_id AND NEW.votable_type = 'question';
+    WHERE id = NEW.votable_id;
     
     RETURN NEW;
   END;

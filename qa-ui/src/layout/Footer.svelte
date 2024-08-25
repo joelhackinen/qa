@@ -8,7 +8,7 @@
     focus-within:opacity-100
   "
 >
-  <div class="bg-white focus-within:border-blue-400 z-10 max-w-screen-lg mx-auto border-t-2 border-l-2 border-r-2 rounded-tl-3xl rounded-tr-3xl px-4 pt-4 pb-2">
+  <div class="bg-white shadow-2xl z-10 max-w-screen-lg mx-auto border-t border-l border-r rounded-tl-3xl rounded-tr-3xl">
     <slot/>
   </div>
 </footer>
