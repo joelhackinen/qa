@@ -101,12 +101,7 @@ router.get("/socket/answers/:questionId", async (ctx) => {
     const data = JSON.parse(m.data);
     switch (data.event) {
       case "send-question":
-        broadcast(
-          JSON.stringify({
-            event: "send-question",
-            question: data.question,
-          })
-        );
+        broadcast("question", data.courseCode, data.question);
         break;
     }
   };
