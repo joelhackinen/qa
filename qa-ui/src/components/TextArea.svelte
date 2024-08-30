@@ -1,5 +1,4 @@
 <script>
-  const MAX_HEIGHT = 120;
   const MAXLENGTH_DEFAULT = -1;
 
   export let id;
@@ -11,7 +10,7 @@
 
   const adjustHeight = ({ currentTarget }) => {
     currentTarget.style.height = "auto";
-    if (currentTarget.scrollHeight > MAX_HEIGHT) {
+    if (currentTarget.scrollHeight > 120) {
       currentTarget.style.height = (currentTarget.scrollHeight) + "px";
       return;
     }
@@ -25,7 +24,7 @@
       appearance-none w-full peer resize-none text-base outline-none hover:cursor-pointer focus:cursor-text
       ring-1 ring-offset-4 ring-gray-300 focus:ring-blue-400 rounded-md
       transition-all duration-200 focus:delay-100
-      h-8 focus:h-[{MAX_HEIGHT}px] [&:not(:placeholder-shown)]:h-[{MAX_HEIGHT}px] max-h-60
+      h-8 focus:h-[120px] [&:not(:placeholder-shown)]:h-[120px] max-h-60
     "
     id={id}
     name={id}

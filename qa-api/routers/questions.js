@@ -1,6 +1,6 @@
 import { Router } from "../deps.js";
 import { sql } from "../database.js";
-import { broadcast } from "./socket.js";
+import { broadcastQuestion } from "./socket.js";
 import { getQuestions } from "../services/questionService.js";
 
 const router = new Router();
@@ -32,7 +32,7 @@ router.post("/questions/:courseCode", async ( { response, request, params, state
   ;`;
   response.status = 200;
 
-  broadcast("question", params.course_code, {
+  broadcastQuestion({
     id: q.id,
     body: q.body,
     createdAt: q.created_at,
