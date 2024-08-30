@@ -1,9 +1,0 @@
-// Copyright 2018-2024 the oak authors. All rights reserved. MIT license.
-/** Body types which will be coerced into strings before being sent. */ export const BODY_TYPES = [
-  "string",
-  "number",
-  "bigint",
-  "boolean",
-  "symbol"
-];
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImh0dHBzOi8vanNyLmlvL0BvYWsvb2FrLzE2LjEuMC91dGlscy9jb25zdHMudHMiXSwic291cmNlc0NvbnRlbnQiOlsiLy8gQ29weXJpZ2h0IDIwMTgtMjAyNCB0aGUgb2FrIGF1dGhvcnMuIEFsbCByaWdodHMgcmVzZXJ2ZWQuIE1JVCBsaWNlbnNlLlxuXG4vKiogQm9keSB0eXBlcyB3aGljaCB3aWxsIGJlIGNvZXJjZWQgaW50byBzdHJpbmdzIGJlZm9yZSBiZWluZyBzZW50LiAqL1xuZXhwb3J0IGNvbnN0IEJPRFlfVFlQRVMgPSBbXCJzdHJpbmdcIiwgXCJudW1iZXJcIiwgXCJiaWdpbnRcIiwgXCJib29sZWFuXCIsIFwic3ltYm9sXCJdO1xuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLHlFQUF5RTtBQUV6RSxxRUFBcUUsR0FDckUsT0FBTyxNQUFNLGFBQWE7RUFBQztFQUFVO0VBQVU7RUFBVTtFQUFXO0NBQVMsQ0FBQyJ9
