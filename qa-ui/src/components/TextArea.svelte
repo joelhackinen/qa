@@ -5,12 +5,13 @@
   export let label = "";
   export let maxLength = MAXLENGTH_DEFAULT;
   export let body;
+  export let focusHeight = 120;
 
   $: remaining = maxLength - body.length;
 
   const adjustHeight = ({ currentTarget }) => {
     currentTarget.style.height = "auto";
-    if (currentTarget.scrollHeight > 120) {
+    if (currentTarget.scrollHeight > focusHeight) {
       currentTarget.style.height = (currentTarget.scrollHeight) + "px";
       return;
     }
@@ -20,11 +21,12 @@
 
 <div class="relative w-full px-2 py-4 truncate {$$restProps.class}">
   <textarea
+    style="--max-focus-height: {focusHeight}px"
     class="
       appearance-none w-full peer resize-none text-base outline-none hover:cursor-pointer focus:cursor-text
       ring-1 ring-offset-4 ring-gray-300 focus:ring-blue-400 rounded-md
       transition-all duration-200 focus:delay-100
-      h-8 focus:h-[120px] [&:not(:placeholder-shown)]:h-[120px] max-h-60
+      h-8 focus:h-[var(--max-focus-height)] [&:not(:placeholder-shown)]:h-[var(--max-focus-height)] max-h-60
     "
     id={id}
     name={id}
