@@ -6,13 +6,11 @@
   export let socket;
   let targetElement; // This will hold the reference to the DOM element
   let isVisible = false; // Reactive variable to track visibility status
-  let oldestEntryFound = false;
   let observer;
 
   const fetchMore = () => {
-    console.log(oldest);
-    if (oldestEntryFound) return;
-    if (!socket || socket.readyState !== 1) return;
+    if (!oldest) return console.log("No more older questions to fetch.");
+    if (!socket || socket.readyState !== 1) return console.error("Tried to fetch but socket not ready");
 
     socket.send(JSON.stringify({
       event: "fetch-questions",
@@ -41,10 +39,10 @@
     }
   };
 
-  onMount(() => { 
-    socket.onopen = () => {
+  onMount(() => {
+    socket.addEventListener("open", () => {
       startObserving();
-    };
+    });
   });
 
   onDestroy(() => {
@@ -55,4 +53,7 @@
 </script>
 
 
-<div class="bg-white h-72" bind:this={targetElement} />
+<div class="flex flex-col bg-white h-72" >
+  <div class="flex-grow" />
+  <div bind:this={targetElement} />
+</div>

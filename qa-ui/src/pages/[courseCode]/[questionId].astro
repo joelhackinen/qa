@@ -1,14 +1,40 @@
 ---
 import Layout from "../../layout/Layout.astro";
+import Footer from "../../layout/Footer.svelte";
+import AnswerForm from "../../components/AnswerForm.svelte";
 import AnswerList from "../../components/AnswerList.svelte";
+import VoteBox from "../../components/VoteBox.svelte";
 
 const courseCode = Astro.params.courseCode;
 const questionId = Astro.params.questionId;
 
-const response = await fetch(`http://qa-api:7777/answers/${questionId}`);
-const answers = [];
+const [res1, res2] = await Promise.all([
+  fetch(`http://qa-api:7777/questions/${courseCode}/${questionId}`),
+  fetch(`http://qa-api:7777/answers/${questionId}`),
+]);
+const [question, answers] = await Promise.all([
+  res1.json(),
+  res2.json(),
+]);
 ---
 
 <Layout>
-  <AnswerList {courseCode} {questionId} {answers} />
+  <div class="flex flex-col border shadow-md rounded-lg p-6">
+    <div class="flex gap-4 items-center">
+      <VoteBox item={question} client:only />
+      <div class="flex-grow text-xl font-semibold">
+        {question.body}
+      </div>
+    </div>
+    <span class="text-sm truncate">
+      last event {new Date(question.updatedAt).toLocaleDateString()} at {new Date(question.createdAt).toLocaleTimeString()}
+    </span>
+    <span class="text-sm truncate">
+      asked {new Date(question.createdAt).toLocaleDateString()} at {new Date(question.createdAt).toLocaleTimeString()}
+    </span>
+  </div>
+  <AnswerList {answers} {questionId} client:only="svelte" />
+  <Footer>
+    <AnswerForm {courseCode} {questionId} client:only="svelte" />
+  </Footer>
 </Layout>

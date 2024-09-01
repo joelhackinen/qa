@@ -1,41 +1,45 @@
 import { Router } from "../deps.js";
 import { getQuestions } from "../services/questionService.js";
 
-const connectedClientsQ = new Map();
-const connectedClientsA = new Map();
+const connectedClients = new Map();
 
 const router = new Router();
 
+// for new questions: broadcast question to all clients subscribed to the course
 export const broadcastQuestion = (body) => {
-  for (const client of connectedClientsQ.values()) {
-    if (client.subscribedCourse === body.courseCode.toLowerCase()) {
+  for (const client of connectedClients.values()) {
+    if (client.subscribeTarget === body.courseCode.toLowerCase()) {
       client.socket.send(JSON.stringify({ event: "question", question: body }));
     }
   }
 };
 
+// for new answers:
+//    broadcast new answer to all clients subscribed to the question
+//    broadcast updated question to all clients subscribed to the course
 export const broadcastAnswer = (body) => {
-  for (const client of connectedClientsA.values()) {
-    if (client.socket.subscribedQuestionId === body.questionId) {
+  for (const client of connectedClients.values()) {
+    if (client.subscribeTarget === body.questionId.toString()) {
       client.socket.send(JSON.stringify({ event: "answer", answer: body }));
     }
   }
 };
 
-router.get("/socket/questions/:courseCode", (ctx) => {
+// target is either course code or question id
+router.get("/socket/:target", (ctx) => {
   const username = ctx.request.url.searchParams.get("username");
   if (!username) {
     return ctx.response.status = 400;
   }
   const socket = ctx.upgrade();
 
-  if (connectedClientsQ.has(username)) {
+  if (connectedClients.has(username)) {
     socket.close(1008, "This connection already exists");
     return;
   }
   socket.username = username;
-  connectedClientsQ.set(username, {
-    subscribedCourse: ctx.params.courseCode.toLowerCase(),
+  connectedClients.set(username, {
+    subscribeTarget: ctx.params.target.toLowerCase(),
     socket,
   });
 
@@ -50,64 +54,27 @@ router.get("/socket/questions/:courseCode", (ctx) => {
 
   socket.onclose = () => {
     console.log(`Client ${username} disconnected`);
-    connectedClientsQ.delete(username);
+    connectedClients.delete(username);
   };
 
   socket.onmessage = async (m) => {
     const data = JSON.parse(m.data);
     switch (data.event) {
-      case "send-question":
+      case "new-question":
         broadcastQuestion(data.question);
         break;
+      case "new-answer":
+        broadcastAnswer(data.answer);
+        break;
       case "fetch-questions":
-        const qs = await getQuestions(data.courseCode, data.oldest);
         socket.send(JSON.stringify({
           event: "fetch-old-questions",
-          questions: qs,
+          questions: (await getQuestions(data.courseCode, data.oldest)),
         }));
         break;
     }
   };
 });
 
-router.get("/socket/answers/:questionId", (ctx) => {
-  const username = ctx.request.url.searchParams.get("username");
-  if (!username) {
-    return ctx.response.status = 400;
-  }
-  const socket = ctx.upgrade();
-
-  if (connectedClientsA.has(username)) {
-    socket.close(1008, `Username ${username} is already taken`);
-    return;
-  }
-  socket.username = username;
-  connectedClientsA.set(username, {
-    subscribedQuestionId: ctx.params.questionId,
-    socket,
-  });
-  console.log(`New client connected: ${username}`);
-
-  socket.onopen = () => {
-    socket.send(JSON.stringify({
-      event: "hello",
-      message: "Hello from server",
-    }));
-  };
-
-  socket.onclose = () => {
-    console.log(`${socket.username} disconnected`);
-    connectedClientsA.delete(socket.username);
-  };
-
-  socket.onmessage = (m) => {
-    const data = JSON.parse(m.data);
-    switch (data.event) {
-      case "send-answer":
-        broadcastAnswer(data.answer);
-        break;
-    }
-  };
-});
 
 export default router;

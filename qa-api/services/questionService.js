@@ -1,6 +1,6 @@
 import { sql } from "../database.js";
 
-export const getQuestions = async (courseCode, olderThanThis) => {
+export const getQuestions = async (courseCode, olderThanThis=null, questionId=null) => {
   const rows = await sql`
     SELECT
       q.id AS id,
@@ -19,6 +19,7 @@ export const getQuestions = async (courseCode, olderThanThis) => {
       v.votable_type = 'question'
     WHERE
       ${olderThanThis ? sql`q.updated_at < ${olderThanThis} AND` : sql``}
+      ${questionId ? sql`q.id = ${questionId} AND` : sql``}
       q.course_code ILIKE ${courseCode}
     GROUP BY
       q.id

@@ -15,7 +15,18 @@ router.get("/questions/:courseCode", async ({ response, request, params }) => {
   response.body = questions;
 });
 
+router.get("/questions/:courseCode/:id", async (ctx) => {
+  const courseCode = ctx.params.courseCode;
+  const questionId = ctx.params.id;
+
+  const [q] = await getQuestions(courseCode, null, questionId);
+
+  ctx.response.body = q;
+});
+
 router.post("/questions/:courseCode", async ( { response, request, params, state }) => {
+  if (!state.user) return response.status = 403;
+
   const body = request.body;
   const { question } = await body.json();
 

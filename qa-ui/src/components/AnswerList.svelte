@@ -1,18 +1,44 @@
 <script>
-  export let courseCode;
-  export let questionId;
+  import { onMount } from "svelte";
+  import { userUuid } from "../stores/stores";
+    import VoteBox from "./VoteBox.svelte";
   export let answers;
+  export let questionId;
+
+  const socket = new WebSocket(
+    `/api/socket/${questionId}?username=${$userUuid}`,
+  );
+
+  onMount(() => {
+    socket.onopen = () => {
+      console.log("yay")
+    };
+
+    socket.onmessage = (e) => {
+      const data = JSON.parse(e.data);
+      console.log(data)
+      
+      switch (data.event) {
+        case "answer":
+          console.log("here")
+          answers = [data.answer, ...answers];
+          break;
+        case "hello":
+          console.log(data);
+          break;
+      }
+    };
+  });
 </script>
 
-<div class="flex flex-col">
-  {#each answers as answer}
-    <a
-      class="m-2 border-2 px-2 py-4 rounded-md hover:bg-gray-300 text-left"
-      href={`/${courseCode.toLowerCase()}/${questionId}`}
-    >
-      <span class="text-gray-500 font-bold">
-        {answer.body}
+<div class="flex flex-col ml-8 mt-4 gap-3">
+  <h1 class="text-md font-semibold">Answers</h1>
+  {#each answers as a}
+    <div class="flex items-center border rounded-md">
+      <VoteBox item={a} />
+      <span class="">
+        {a.body}
       </span>
-    </a>
+    </div>
   {/each}
 </div>
