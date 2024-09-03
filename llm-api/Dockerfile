@@ -1,4 +1,4 @@
-FROM bitnami/pytorch
+FROM bitnami/pytorch:2.3.1
 
 WORKDIR /app
 
