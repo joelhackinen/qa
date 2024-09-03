@@ -29,7 +29,8 @@ CREATE TABLE votes (
   user_id TEXT NOT NULL,
   votable_id INTEGER NOT NULL,  --questions.id or answers.id
   votable_type VOTE_TARGET_TYPE NOT NULL,
-  vote_value INTEGER NOT NULL CHECK (vote_value IN (-1, 1))
+  vote_value INTEGER NOT NULL CHECK (vote_value IN (-1, 1)),
+  voted_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 CREATE UNIQUE INDEX user_vote_idx ON votes (user_id, votable_id, votable_type);
