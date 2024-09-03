@@ -1,19 +1,12 @@
 import { Router } from "../deps.js";
 import { sql } from "../database.js";
 import { broadcastAnswer } from "./socket.js";
-import { consoleSize } from "https://deno.land/std@0.132.0/_deno_unstable.ts";
+import { getAnswers } from "../services/answerService.js";
 
 const router = new Router();
 
 router.get("/answers/:questionId", async ({ response, params }) => {
-  const answers = await sql`
-    SELECT
-      *
-    FROM
-      answers
-    WHERE
-      question_id = ${params.questionId}
-  ;`;
+  const answers = await getAnswers(params.questionId);
   response.body = answers;
 });
 

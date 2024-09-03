@@ -2,7 +2,7 @@ const reopenTimeouts = [2000, 5000, 10000, 30000, 60000];
 
 export const Socket = (() => {
   /** @type {WebSocket} */
-  let socket, openPromise, reopenTimeoutHandler, connectionUrl;
+  let socket, openPromise, reopenTimeoutHandler;
   let reopenCount = 0;
   let subscriptions = 0;
 
@@ -31,6 +31,15 @@ export const Socket = (() => {
       reopen(url);
     });
 
+    socket.addEventListener("message", (m) => {
+      const data = JSON.parse(m.data);
+      switch (data.event) {
+        case "error":
+          alert(data.message);
+          break;
+      }
+    });
+
     openPromise = new Promise((resolve, reject) => {
       socket.addEventListener("error", (error) => {
         reject(error);
@@ -41,18 +50,17 @@ export const Socket = (() => {
         reopenCount = 0;
         resolve();
         openPromise = undefined;
-        connectionUrl = url;
         console.log("WebSocket connected to:", url);
       });
     });
     return openPromise;
   };
 
-  const reopen = (connectionUrl) => {
-    console.log("Trying to reopen WebSocket to", connectionUrl);
+  const reopen = (url) => {
+    console.log("Trying to reopen WebSocket to", url);
     close();
     if (subscriptions > 0) {
-      reopenTimeoutHandler = setTimeout(() => open(connectionUrl), reopenTimeout());
+      reopenTimeoutHandler = setTimeout(() => open(url), reopenTimeout());
     }
   };
 
@@ -64,7 +72,6 @@ export const Socket = (() => {
     if (socket) {
       socket.close();
       socket = undefined;
-      connectionUrl = undefined;
     }
     console.log("WebSocket closed");
   };
@@ -75,11 +82,11 @@ export const Socket = (() => {
       if (socket.readyState !== WebSocket.OPEN) open().then(send);
       else send();
     },
-    connect: (url) => {
+    use: (url) => {
       subscriptions++;
       open(url);
     },
-    disconnect: () => {
+    quit: () => {
       subscriptions--;
       if (subscriptions === 0) {
         close();

@@ -1,5 +1,7 @@
 import { Router } from "../deps.js";
+import { getAnswers } from "../services/answerService.js";
 import { getQuestions } from "../services/questionService.js";
+import { vote } from "../services/voteService.js";
 
 const connectedClients = new Map();
 
@@ -9,7 +11,7 @@ const router = new Router();
 export const broadcastQuestion = (body) => {
   for (const client of connectedClients.values()) {
     if (client.subscribeTarget === body.courseCode.toLowerCase()) {
-      client.socket.send(JSON.stringify({ event: "question", question: body }));
+      client.socket.send(JSON.stringify({ event: "new-question", question: body }));
     }
   }
 };
@@ -20,7 +22,7 @@ export const broadcastQuestion = (body) => {
 export const broadcastAnswer = (body) => {
   for (const client of connectedClients.values()) {
     if (client.subscribeTarget === body.questionId.toString()) {
-      client.socket.send(JSON.stringify({ event: "answer", answer: body }));
+      client.socket.send(JSON.stringify({ event: "new-answer", answer: body }));
     }
   }
 };
@@ -68,8 +70,28 @@ router.get("/socket/:target", (ctx) => {
         break;
       case "fetch-questions":
         socket.send(JSON.stringify({
-          event: "fetch-old-questions",
+          event: "fetch-questions",
           questions: (await getQuestions(data.courseCode, data.oldest)),
+        }));
+        break;
+      case "fetch-answers":
+        socket.send(JSON.stringify({
+          event: "fetch-answers",
+          answers: (await getAnswers(data.questionId, data.oldest)),
+        }));
+        break;
+      case "send-vote":
+        const possibleVote = await vote(data.vote);
+        if (possibleVote instanceof Error) {
+          socket.send(JSON.stringify({
+            event: "error",
+            message: possibleVote.message,
+          }));
+          return;
+        }
+        socket.send(JSON.stringify({
+          event: "send-vote",
+          vote: possibleVote,
         }));
         break;
     }

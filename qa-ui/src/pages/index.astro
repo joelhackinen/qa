@@ -1,7 +1,6 @@
 ---
 import Layout from "../layout/Layout.astro";
 import CourseList from "../components/CourseList.svelte";
-import QuestionCard from "../components/QuestionCard.svelte";
 
 const response = await fetch("http://qa-api:7777/courses");
 const courses = await response.json();

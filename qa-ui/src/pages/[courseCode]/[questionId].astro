@@ -3,7 +3,7 @@ import Layout from "../../layout/Layout.astro";
 import Footer from "../../layout/Footer.svelte";
 import AnswerForm from "../../components/AnswerForm.svelte";
 import AnswerList from "../../components/AnswerList.svelte";
-import VoteBox from "../../components/VoteBox.svelte";
+import QuestionCard from "../../components/QuestionCard.svelte";
 
 const courseCode = Astro.params.courseCode;
 const questionId = Astro.params.questionId;
@@ -19,20 +19,7 @@ const [question, answers] = await Promise.all([
 ---
 
 <Layout>
-  <div class="flex flex-col border shadow-md rounded-lg p-6">
-    <div class="flex gap-4 items-center">
-      <VoteBox item={question} client:only />
-      <div class="flex-grow text-xl font-semibold">
-        {question.body}
-      </div>
-    </div>
-    <span class="text-sm truncate">
-      last event {new Date(question.updatedAt).toLocaleDateString()} at {new Date(question.createdAt).toLocaleTimeString()}
-    </span>
-    <span class="text-sm truncate">
-      asked {new Date(question.createdAt).toLocaleDateString()} at {new Date(question.createdAt).toLocaleTimeString()}
-    </span>
-  </div>
+  <QuestionCard {question} client:only="svelte" />
   <AnswerList {answers} {questionId} client:only="svelte" />
   <Footer>
     <AnswerForm {courseCode} {questionId} client:only="svelte" />

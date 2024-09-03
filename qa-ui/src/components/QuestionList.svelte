@@ -1,63 +1,83 @@
 <script>
-  import QuestionLoader from "./QuestionLoader.svelte";
+  import { Socket } from "../stores/socket";
   import { onDestroy, onMount } from "svelte";
   import { userUuid } from "../stores/stores";
   import VoteBox from "./VoteBox.svelte";
+  import InfiniteScroller from "./InfiniteScroller.svelte";
 
   export let courseCode;
-  export let questionsFromServer;
-  let qs = questionsFromServer;
+
+  /** @type {Array}*/
+  export let questions;
   let oldest = "";
 
-  let socket = new WebSocket(
-    `/api/socket/${courseCode}?username=${$userUuid}`,
-  );
-
-  $: oldest = qs.reduce((prev, curr) => (
+  $: oldest = questions.reduce((prev, curr) => (
     new Date(curr.updatedAt) < new Date(prev.updatedAt) ? curr : prev
   ), { updatedAt: "9999-12-31T23:59:59.999Z" }).updatedAt;
-  
+
   onMount(() => {
-    socket.onmessage = (m) => {
+    Socket.use(`/api/socket/${courseCode}?username=${$userUuid}`);
+
+    Socket.addEventListener("message", (m) => {
       const data = JSON.parse(m.data);
-      console.log(data);
 
       switch (data.event) {
-        case "question":
-          console.log(data.question);
-          qs = [data.question, ...qs];
+        case "new-question":
+          questions = [data.question, ...questions];
           break;
-        case "hello":
-          console.log(data.message);
-          break;
-        case "fetch-old-questions":
-          console.log(data.questions);
+        case "fetch-questions":
           if (data.questions.length === 0) {
             oldest = undefined;
             return;
           }
-          qs = [...qs, ...data.questions];
+          questions = [...questions, ...data.questions];
+          break;
+        case "send-vote":
+          const vote = data.vote;
+          const votedQ = questions.find(q => q.id === vote.votableId);
+          if (!votedQ) return;
+          const woVotedQ = questions.filter(q => q.id !== votedQ.id);
+          questions = [{
+            ...votedQ,
+            updatedAt: vote.votedAt,
+            votes: votedQ.votes+vote.voteValue,
+          }, ...woVotedQ];
           break;
       }
-    };
-
-    socket.onclose = () => {
-      alert("connection closed");
-    };
+    });
   });
 
   onDestroy(() => {
-    if (socket) {
-      socket.close();
-    }
+    Socket.quit();
   });
+
+  const fetchMore = () => {
+    if (!oldest) return console.log("No older questions to fetch");
+    Socket.send({
+      event: "fetch-questions",
+      courseCode,
+      oldest,
+    });
+  };
+
+  const handleVote = (e) => {
+    Socket.send({
+      event: "send-vote",
+      vote: {
+        userId: $userUuid,
+        votableId: e.detail.votableId,
+        votableType: "question",
+        voteValue: e.detail.value,
+      },
+    });
+  };
 </script>
 
 <div class="flex flex-col p-2 gap-4 {$$restProps.class}">
-  {#each qs as q}
+  {#each questions as q}
     <div class="flex flex-col border rounded-md px-4 py-6 gap-2 shadow-lg hover:bg-gray-100">
       <div class="flex flex-grow items-center gap-4">
-        <VoteBox item={q} />
+        <VoteBox item={q} on:vote={handleVote} />
         <a href={`${q.courseCode.toLowerCase()}/${q.id}`} class="font-semibold flex-grow truncate hover:underline">
           {q.body}
         </a>
@@ -82,5 +102,5 @@
       </div>
     </div>
   {/each}
-  <QuestionLoader {courseCode} bind:oldest={oldest} bind:socket={socket} />
+  <InfiniteScroller on:message={fetchMore} />
 </div>

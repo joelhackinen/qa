@@ -7,12 +7,12 @@ import QuestionForm from "../../components/QuestionForm.svelte";
 const courseCode = Astro.params.courseCode;
 
 const response = await fetch(`http://qa-api:7777/questions/${courseCode}`);
-const questionsFromServer = await response.json();
+const questions = await response.json();
 ---
 
 <Layout>
-  <QuestionList client:only="svelte" {courseCode} {questionsFromServer} class="flex-grow" />
+  <QuestionList client:only="svelte" {courseCode} {questions} />
   <Footer>
-    <QuestionForm {courseCode} client:only="svelte" />
+    <QuestionForm client:only="svelte" {courseCode} />
   </Footer>
 </Layout>
