@@ -73,16 +73,16 @@
 </script>
 
 <div class="flex flex-col ml-8 mt-4">
-  <h1 class="text-md font-semibold">Answers</h1>
+  <h1 class="text-md font-semibold">{answers.length ? "Answers" : "No answers so far"}</h1>
   {#each answers as a}
     <div class="relative py-1">
-      <div class="flex gap-x-2 items-center border rounded-md px-2 py-1 shadow-md">
+      <div class="flex gap-x-2 items-center border rounded-md px-2 py-1 shadow-sm">
         <VoteBox item={a} on:vote={handleVote} />
         <div class="break-words">
           {a.body}
         </div>
       </div>
-      <div class="absolute -bottom-0.5 left-10 bg-white rounded-lg px-1 text-xs truncate shadow-md">
+      <div class="absolute -bottom-0.5 left-10 bg-white rounded-lg px-1 text-xs truncate border-b shadow-sm">
         {new Date(a.updatedAt).toLocaleString()}
       </div>
     </div>

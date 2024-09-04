@@ -75,7 +75,7 @@
 
 <div class="flex flex-col p-2 gap-4 {$$restProps.class}">
   {#each questions as q}
-    <div class="flex flex-col border rounded-md px-4 py-6 gap-2 shadow-lg hover:bg-gray-100">
+    <div class="flex flex-col border rounded-md px-4 py-6 gap-2 shadow-md hover:bg-gray-100">
       <div class="flex flex-grow items-center gap-4">
         <VoteBox item={q} on:vote={handleVote} />
         <a href={`${q.courseCode.toLowerCase()}/${q.id}`} class="font-semibold flex-grow truncate hover:underline">
