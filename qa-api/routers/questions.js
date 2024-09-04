@@ -1,6 +1,5 @@
 import { Router } from "../deps.js";
 import { sql } from "../database.js";
-import { broadcastQuestion } from "./socket.js";
 import { getQuestions } from "../services/questionService.js";
 
 const router = new Router();
@@ -42,15 +41,15 @@ router.post("/questions/:courseCode", async ( { response, request, params, state
     ) RETURNING *
   ;`;
   response.status = 200;
-
-  broadcastQuestion({
+  response.body = {
     id: q.id,
     body: q.body,
     createdAt: q.created_at,
     updatedAt: q.updated_at,
     courseCode: q.course_code,
     votes: 0,
-  });
+    answers: q.answers,
+  };
 });
 
 export default router;

@@ -1,12 +1,14 @@
 import { Router } from "../deps.js";
 import { sql } from "../database.js";
-import { broadcastAnswer } from "./socket.js";
 import { getAnswers } from "../services/answerService.js";
 
 const router = new Router();
 
-router.get("/answers/:questionId", async ({ response, params }) => {
-  const answers = await getAnswers(params.questionId);
+router.get("/answers/:questionId", async ({ response, request, params }) => {
+  const answers = await getAnswers(
+    params.questionId,
+    request.url.searchParams.get("from")
+  );
   response.body = answers;
 });
 
@@ -26,16 +28,14 @@ router.post("/answers/:questionId", async ({ request, response, state }) => {
     ) RETURNING *
   ;`;
   console.log(a);
-  response.body = a;
-
-  broadcastAnswer({
+  response.body = {
     id: a.id,
     questionId: a.question_id,
     body: a.body,
     createdAt: a.created_at,
     updatedAt: a.updated_at,
     courseCode
-  });
+  };
 });
 
 export default router;
