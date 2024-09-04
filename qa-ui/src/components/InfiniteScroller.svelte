@@ -19,7 +19,7 @@
         // Log to the console if the element becomes visible
         if (isVisible && !wasVisible) {
           console.log("Element has become visible in the viewport.");
-          dispatch("message");
+          dispatch("bottom");
         }
       });
     });

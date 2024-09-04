@@ -20,7 +20,7 @@ const [question, answers] = await Promise.all([
 
 <Layout>
   <QuestionCard {question} client:only="svelte" />
-  <AnswerList {answers} {questionId} client:only="svelte" />
+  <AnswerList {answers} {question} client:only="svelte" />
   <Footer>
     <AnswerForm {courseCode} {questionId} client:only="svelte" />
   </Footer>
