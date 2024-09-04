@@ -1,8 +1,15 @@
-import { Application } from "./deps.js";
+import { Application, createClient } from "./deps.js";
 import coursesRouter from "./routers/courses.js";
 import questionsRouter from "./routers/questions.js";
 import answersRouter from "./routers/answers.js";
 import socketRouter from "./routers/socket.js";
+
+export const client = createClient({
+  url: "redis://redis:6379",
+  pingInterval: 1000,
+});
+
+await client.connect();
 
 const handleRequest = async (request) => {
   const data = await request.json();
