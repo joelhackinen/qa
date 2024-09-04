@@ -8,6 +8,7 @@ export const getQuestions = async (courseCode, olderThanThis=null, questionId=nu
       q.body,
       q.created_at,
       q.updated_at,
+      q.answers,
       COALESCE(SUM(v.vote_value), 0)::INTEGER AS vote_count
     FROM
       questions q
@@ -35,5 +36,6 @@ export const getQuestions = async (courseCode, olderThanThis=null, questionId=nu
     updatedAt: q.updated_at,
     courseCode: q.course_code,
     votes: q.vote_count,
+    answers: q.answers,
   }));
 };

@@ -23,6 +23,8 @@ export const broadcastAnswer = (body) => {
   for (const client of connectedClients.values()) {
     if (client.subscribeTarget === body.questionId.toString()) {
       client.socket.send(JSON.stringify({ event: "new-answer", answer: body }));
+    } else if (client.subscribeTarget === body.courseCode.toLowerCase()) {
+      client.socket.send(JSON.stringify({ event: "add-answer-to-question", answer: body }));
     }
   }
 };

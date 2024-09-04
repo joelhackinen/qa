@@ -14,7 +14,7 @@ router.post("/answers/:questionId", async ({ request, response, state }) => {
   if (!state.user) return response.status = 403;
 
   const requestBody = request.body;
-  const { questionId, answer } = await requestBody.json();
+  const { questionId, answer, courseCode } = await requestBody.json();
 
   const [a] = await sql`
     INSERT INTO
@@ -33,7 +33,8 @@ router.post("/answers/:questionId", async ({ request, response, state }) => {
     questionId: a.question_id,
     body: a.body,
     createdAt: a.created_at,
-    updatedAt: a.updated_at
+    updatedAt: a.updated_at,
+    courseCode
   });
 });
 
