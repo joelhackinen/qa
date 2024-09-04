@@ -10,7 +10,7 @@ if (!user) {
 export const userUuid = readable(user);
 
 
-const newQuestionStore = (defaultValue=null) => {
+const newStore = (defaultValue=null) => {
   const store = writable(defaultValue);
 
   return {
@@ -26,4 +26,5 @@ const newQuestionStore = (defaultValue=null) => {
   };
 };
 
-export const newQuestion = newQuestionStore();
+export const newQuestion = newStore();
+export const newAnswer = newStore();

@@ -1,54 +1,20 @@
 <script>
-  import { userUuid } from "../stores/stores";
-  import { onDestroy, onMount } from "svelte";
+  import { newAnswer } from "../stores/stores";
   import VoteBox from "./VoteBox.svelte";
-  import { Socket } from "../stores/socket";
 
   export let question;
 
-  const handleVote = (e) => {
-    Socket.send({
-      event: "send-vote",
-      vote: {
-        userId: $userUuid,
-        votableId: e.detail.votableId,
-        votableType: "question",
-        voteValue: e.detail.value,
-      },
-    });
+  const handleNewAnswer = (a) => {
+    if (!a) return;
+    question = { ...question, updatedAt: a.createdAt };
   };
 
-  onMount(() => {
-    Socket.use(`/api/socket/${question.id}?username=${$userUuid}`);
-
-    Socket.addEventListener("message", (m) => {
-      const data = JSON.parse(m.data);
-      switch (data.event) {
-        case "receive-vote":
-          question = {
-            ...question,
-            updatedAt: data.vote.votedAt,
-            votes: question.votes+data.vote.voteValue
-          };
-          break;
-        case "new-answer":
-          question = {
-            ...question,
-            updatedAt: data.answer.createdAt,
-          };
-          break;
-      }
-    })
-  });
-
-  onDestroy(() => {
-    Socket.quit();
-  });
+  $: $newAnswer, handleNewAnswer($newAnswer);
 </script>
 
 <div class="flex flex-col border shadow-md rounded-lg p-6">
   <div class="flex gap-4 items-center">
-    <VoteBox item={question} on:vote={handleVote} />
+    <VoteBox bind:item={question} type="question" />
     <div class="flex-grow text-xl font-semibold">
       {question.body}
     </div>
