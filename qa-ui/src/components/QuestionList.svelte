@@ -1,7 +1,5 @@
 <script>
-  import { Socket } from "../stores/socket";
-  import { onDestroy, onMount } from "svelte";
-  import { userUuid } from "../stores/stores";
+  import { newQuestion } from "../stores/stores";
   import VoteBox from "./VoteBox.svelte";
   import InfiniteScroller from "./InfiniteScroller.svelte";
 
@@ -15,71 +13,26 @@
     new Date(curr.updatedAt) < new Date(prev.updatedAt) ? curr : prev
   ), { updatedAt: "9999-12-31T23:59:59.999Z" }).updatedAt;
 
-  onMount(() => {
-    Socket.use(`/api/socket/${courseCode}?username=${$userUuid}`);
-
-    Socket.addEventListener("message", (m) => {
-      const data = JSON.parse(m.data);
-
-      switch (data.event) {
-        case "new-question":
-          questions = [data.question, ...questions];
-          break;
-        case "fetch-questions":
-          if (data.questions.length === 0) {
-            oldest = undefined;
-            return;
-          }
-          questions = [...questions, ...data.questions];
-          break;
-        case "send-vote":
-          const vote = data.vote;
-          const votedQ = questions.find(q => q.id === vote.votableId);
-          if (!votedQ) return;
-          const woVotedQ = questions.filter(q => q.id !== votedQ.id);
-          questions = [{
-            ...votedQ,
-            updatedAt: vote.votedAt,
-            votes: votedQ.votes+vote.voteValue,
-          }, ...woVotedQ];
-          break;
-        case "add-answer-to-question":
-          const answer = data.answer;
-          const answeredQ = questions.find(q => q.id === answer.questionId);
-          if (!answeredQ) return;
-          const woAnsweredQ = questions.filter(q => q.id !== answeredQ.id);
-          questions = [{
-            ...answeredQ,
-            answers: answeredQ.answers+1,
-          }, ...woAnsweredQ];
-          break;
-      }
-    });
-  });
-
-  onDestroy(() => {
-    Socket.quit();
-  });
-
-  const fetchMore = () => {
-    if (!oldest) return console.log("No older questions to fetch");
-    Socket.send({
-      event: "fetch-questions",
-      courseCode,
-      oldest,
-    });
+  const addNewQuestion = (q) => {
+    if (!q) return;
+    questions = [q, ...questions];
   };
 
-  const handleVote = (e) => {
-    Socket.send({
-      event: "send-vote",
-      vote: {
-        userId: $userUuid,
-        votableId: e.detail.votableId,
-        votableType: "question",
-        voteValue: e.detail.value,
-      },
-    });
+  $: $newQuestion, addNewQuestion($newQuestion);
+
+  const fetchMore = async () => {
+    if (!oldest) {
+      console.log("No older questions to fetch");
+      return;
+    }
+    const response = await fetch(`/api/questions/${courseCode}?from=${oldest}`);
+    const newQuestions = await response.json();
+
+    if (newQuestions.length === 0) {
+      oldest = undefined;
+      return;
+    }
+    questions = [...questions, ...newQuestions];
   };
 </script>
 
@@ -87,7 +40,7 @@
   {#each questions as q}
     <div class="flex flex-col border rounded-md px-4 py-6 gap-2 shadow-md hover:bg-gray-100">
       <div class="flex flex-grow items-center gap-4">
-        <VoteBox item={q} on:vote={handleVote} />
+        <VoteBox bind:item={q} type="question" />
         <a href={`${q.courseCode.toLowerCase()}/${q.id}`} class="font-semibold flex-grow truncate hover:underline">
           {q.body}
         </a>
@@ -112,5 +65,5 @@
       </div>
     </div>
   {/each}
-  <InfiniteScroller on:message={fetchMore} />
+  <InfiniteScroller on:bottom={fetchMore} />
 </div>

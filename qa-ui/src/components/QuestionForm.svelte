@@ -1,5 +1,5 @@
 <script>
-  import { userUuid } from "../stores/stores";
+  import { userUuid, newQuestion } from "../stores/stores";
   import TextArea from "./TextArea.svelte";
 
   export let courseCode;
@@ -15,11 +15,13 @@
         "Authorization": $userUuid,
       },
     });
-    question = "";
-
     if (!response.ok) {
       console.error("Error");
     }
+    const data = await response.json();
+
+    question = "";
+    $newQuestion = data;
   };
 </script>
 
