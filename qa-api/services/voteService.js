@@ -15,9 +15,9 @@ export const vote = async ({ userId, votableId, votableType, voteValue }) => {
     ;`;
   } catch (error) {
     if (error.code == 23505) {
-      console.log("the user has already voted to this question");
+      return new Error("the user has already voted to this target");
     }
-    return new Error("the user has already voted to this question");
+    return new Error("unknown error");
   }
   console.log(v);
   return {
