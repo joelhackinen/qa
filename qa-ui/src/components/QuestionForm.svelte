@@ -10,13 +10,15 @@
       method: "post",
       body: JSON.stringify({
         question,
-        userId: $userUuid,
       }),
+      headers: {
+        "user-uuid": $userUuid,
+      },
     });
-    if (!response.ok) {
-      console.error("Error");
-    }
     const data = await response.json();
+    if (!response.ok) {
+      return alert(data.error);
+    }
 
     question = "";
     $newQuestion = data;

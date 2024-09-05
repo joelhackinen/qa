@@ -1,4 +1,4 @@
-import { client as redis } from "./app.js";
+import { serviceClient as redis } from "./app.js";
 
 export const cacheMethodCalls = (object, methodsToFlushCacheWith = []) => {
   const handler = {
