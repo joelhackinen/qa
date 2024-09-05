@@ -13,10 +13,8 @@
         courseCode,
         questionId,
         answer,
+        userId: $userUuid,
       }),
-      headers: {
-        "Authorization": $userUuid,
-      },
     });
     if (!response.ok) {
       console.error("Error");

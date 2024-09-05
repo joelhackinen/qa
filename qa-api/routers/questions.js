@@ -24,18 +24,16 @@ router.get("/questions/:courseCode/:id", async (ctx) => {
 });
 
 router.post("/questions/:courseCode", async ( { response, request, params, state }) => {
-  if (!state.user) return response.status = 403;
-
   const body = request.body;
-  const { question } = await body.json();
+  const { question, userId } = await body.json();
 
-  console.log(`"${question}" asked by ${state.user} on ${params.courseCode}`);
+  console.log(`"${question}" asked by ${userId} on ${params.courseCode}`);
 
   const [q] = await sql`
     INSERT INTO
       questions (user_id, body, course_code)
     VALUES (
-      ${state.user},
+      ${userId},
       ${question},
       ${params.courseCode.toUpperCase()}
     ) RETURNING *
