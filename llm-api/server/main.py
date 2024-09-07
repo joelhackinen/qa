@@ -1,5 +1,9 @@
-from fastapi import Request, FastAPI
+from fastapi import FastAPI
 from .models import generator
+from pydantic import BaseModel
+
+class Question(BaseModel):
+    question: str
 
 app = FastAPI()
 
@@ -8,6 +12,5 @@ async def main():
     return "POST a message with a JSON document that has a 'question' key."
 
 @app.post("/")
-async def ask_question(request: Request):
-    data = await request.json()
-    return generator(data["question"])
+async def ask_question(data: Question):
+    return generator(data.question)

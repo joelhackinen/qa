@@ -1,7 +1,7 @@
 import { Router } from "../deps.js";
 import { sql } from "../database.js";
 import { getQuestions } from "../services/questionService.js";
-import { rateLimitClient } from "../app.js";
+import { rateLimitClient, serviceClient } from "../app.js";
 
 const router = new Router();
 
@@ -25,8 +25,9 @@ router.get("/questions/:courseCode/:id", async (ctx) => {
 });
 
 router.post("/questions/:courseCode",
+  /*
   async ({ response, state }, next) => {
-    const lastQuestionTimestamp = await rateLimitClient.get(`question-${state.user}`);
+    const lastQuestionTimestamp = await rateLimitClient.GET(`question-${state.user}`);
     const diff = Date.now() - new Date(lastQuestionTimestamp ?? 0).valueOf();
   
     if (diff < 60 * 1000) {
@@ -35,6 +36,7 @@ router.post("/questions/:courseCode",
     }
     await next();
   },
+  */
   async ({ response, request, params, state }) => {
     const body = request.body;
     const { question } = await body.json();
@@ -56,7 +58,9 @@ router.post("/questions/:courseCode",
         course_code
     ;`;
 
-    await rateLimitClient.set(`question-${state.user}`, `${q.created_at}`);
+    await rateLimitClient.SET(`question-${state.user}`, `${q.created_at}`);
+    
+    await serviceClient.XADD("ai_gen_answers", "*", { question: JSON.stringify(q) });
 
     response.status = 200;
     response.body = {

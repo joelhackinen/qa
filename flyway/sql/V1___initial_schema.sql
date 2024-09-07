@@ -34,4 +34,11 @@ CREATE TABLE votes (
   voted_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+--no duplicate votes
 CREATE UNIQUE INDEX user_vote_idx ON votes (user_id, votable_id, votable_type);
+
+--faster retrieval of all questions for a course
+CREATE INDEX idx_course_code ON questions(course_code);
+
+--faster retriaval of all answers for a question
+CREATE INDEX idx_question_id ON answers(question_id);

@@ -8,6 +8,7 @@ export const getAnswers = async (questionId, olderThanThis=null) => {
       a.body,
       a.created_at,
       a.updated_at,
+      a.user_id,
       COALESCE(SUM(v.vote_value), 0)::INTEGER AS vote_count
     FROM
       answers a
@@ -33,5 +34,6 @@ export const getAnswers = async (questionId, olderThanThis=null) => {
     createdAt: a.created_at,
     updatedAt: a.updated_at,
     votes: a.vote_count,
+    userId: a.user_id,
   }));
 };
