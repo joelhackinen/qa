@@ -25,7 +25,6 @@ router.get("/questions/:courseCode/:id", async (ctx) => {
 });
 
 router.post("/questions/:courseCode",
-  /*
   async ({ response, state }, next) => {
     const lastQuestionTimestamp = await rateLimitClient.GET(`question-${state.user}`);
     const diff = Date.now() - new Date(lastQuestionTimestamp ?? 0).valueOf();
@@ -36,7 +35,6 @@ router.post("/questions/:courseCode",
     }
     await next();
   },
-  */
   async ({ response, request, params, state }) => {
     const body = request.body;
     const { question } = await body.json();

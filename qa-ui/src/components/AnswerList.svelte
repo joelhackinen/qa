@@ -1,8 +1,9 @@
 <script>
   import { newAnswer } from "../stores/stores";
+  import { Source } from "../source";
   import VoteBox from "./VoteBox.svelte";
   import InfiniteScroller from "./InfiniteScroller.svelte";
-    import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
 
   /** @type {Array}*/
   export let answers;
@@ -41,22 +42,17 @@
   };
 
   onMount(() => {
-    source = new EventSource(`/sse?question_id=${question.id}`);
+    Source.use(`/sse?question_id=${question.id}`);
 
-    source.addEventListener("hello", (e) => {
-      console.log(e.data);
-    });
-
-    source.addEventListener("open", () => {
-      console.log("SSE open")
-    });
-
-    source.addEventListener("ai-generated-answers", (e) => {
+    Source.addEventListener("ai-generated-answers", (e) => {
       const aiAnswers = JSON.parse(e.data);
-      console.log(aiAnswers);
       answers = [...aiAnswers, ...answers];
       question = { ...question, answers: question.answers+3 };
     });
+  });
+
+  onDestroy(() => {
+    Source.quit();
   });
 </script>
 
