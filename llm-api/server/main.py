@@ -13,4 +13,5 @@ async def main():
 
 @app.post("/")
 async def ask_question(data: Question):
+    print(data.question)
     return generator(data.question)
