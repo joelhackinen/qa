@@ -48,10 +48,10 @@
       <div class="flex justify-between items-center">
         <div class="flex flex-col truncate">
           <span class="text-xs truncate">
-            last event at {new Date(q.updatedAt).toLocaleString()}
+            last event at {new Date(q.updatedAt).toLocaleString("en-GB")}
           </span>
           <span class="text-xs truncate">
-            created at {new Date(q.createdAt).toLocaleString()}
+            created at {new Date(q.createdAt).toLocaleString("en-GB")}
           </span>
         </div>
         <a href={`${q.courseCode.toLowerCase()}/${q.id}`} class="flex items-center border border-black rounded-full p-1 gap-1 hover:bg-gray-300">

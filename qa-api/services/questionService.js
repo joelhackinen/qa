@@ -3,30 +3,22 @@ import { sql } from "../database.js";
 export const getQuestions = async (courseCode, olderThanThis=null, questionId=null) => {
   const rows = await sql`
     SELECT
-      q.id AS id,
-      q.course_code,
-      q.body,
-      q.created_at,
-      q.updated_at,
-      q.answers,
-      COALESCE(SUM(v.vote_value), 0)::INTEGER AS vote_count
+      id,
+      course_code,
+      body,
+      created_at,
+      updated_at,
+      answers,
+      votes
     FROM
-      questions q
-    LEFT JOIN
-      votes v
-    ON
-      q.id = v.votable_id
-        AND
-      v.votable_type = 'question'
+      questions
     WHERE
-      ${olderThanThis ? sql`q.updated_at < ${olderThanThis} AND` : sql``}
-      ${questionId ? sql`q.id = ${questionId} AND` : sql``}
-      q.course_code ILIKE ${courseCode}
-    GROUP BY
-      q.id
+      ${olderThanThis ? sql`updated_at < ${olderThanThis} AND` : sql``}
+      ${questionId ? sql`id = ${questionId} AND` : sql``}
+      course_code ILIKE ${courseCode}
     ORDER BY
       updated_at DESC
-    LIMIT 10;
+    LIMIT 20;
   ;`;
 
   return rows.map(q => ({
@@ -35,7 +27,7 @@ export const getQuestions = async (courseCode, olderThanThis=null, questionId=nu
     createdAt: q.created_at,
     updatedAt: q.updated_at,
     courseCode: q.course_code,
-    votes: q.vote_count,
+    votes: q.votes,
     answers: q.answers,
   }));
 };
