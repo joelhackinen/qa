@@ -36,12 +36,12 @@
   };
 </script>
 
-<div class="flex flex-col p-2 gap-4 {$$restProps.class}">
+<div class="flex flex-col p-2 gap-4 {$$restProps.class}" id="question-list">
   {#each questions as q}
     <div class="flex flex-col border rounded-md px-4 py-6 gap-2 shadow-md hover:bg-gray-100">
       <div class="flex flex-grow items-center gap-4">
         <VoteBox bind:item={q} type="question" />
-        <a href={`${q.courseCode.toLowerCase()}/${q.id}`} class="font-semibold flex-grow truncate hover:underline">
+        <a href={`${q.courseCode.toLowerCase()}/${q.id}`} class="font-semibold flex-grow truncate hover:underline" name="answer-link">
           {q.body}
         </a>
       </div>

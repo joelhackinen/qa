@@ -1,9 +1,13 @@
-FROM mcr.microsoft.com/playwright:v1.38.0-focal
+FROM mcr.microsoft.com/playwright:v1.40.0-jammy
 
-COPY . /e2e-playwright
+WORKDIR /app
 
-WORKDIR /e2e-playwright
+COPY package*.json .
+COPY *config.js .
 
 RUN npm install
+RUN npx playwright install chromium
 
-CMD [ "npx", "playwright", "test", "--reporter=list" ]
+COPY . .
+
+CMD [ "npx", "playwright", "test" ]

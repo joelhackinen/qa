@@ -35,6 +35,7 @@
       w-fit h-fit bg-slate-900 shadow-md text-white font-semibold rounded-md p-2 hover:bg-black active:shadow-none
       transition-all disabled:bg-slate-500 mb-1
     "
+    id="send-answer-button"
     disabled={!answer}
     on:click={handleSendAnswer}
   >

@@ -9,9 +9,6 @@
   export let answers;
   export let question;
 
-  /** @type {EventSource}*/
-  let source;
-
   let oldest = "";
 
   $: oldest = answers.reduce((prev, curr) => (
@@ -56,7 +53,7 @@
   });
 </script>
 
-<div class="flex flex-col ml-8 mt-4">
+<div class="flex flex-col ml-8 mt-4" id="answer-list">
   <h1 class="text-md font-semibold">Answers ({question.answers})</h1>
   {#each answers as a}
     <div class="relative py-1">
