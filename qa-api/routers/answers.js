@@ -41,7 +41,8 @@ router.post("/answers/:questionId",
         body,
         to_char(created_at, 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') AS created_at,
         to_char(updated_at, 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') AS updated_at,
-        user_id
+        user_id,
+        votes
     ;`;
 
     await rateLimitClient.set(`answer-${state.user}`, `${a.created_at}`);
@@ -54,6 +55,7 @@ router.post("/answers/:questionId",
       updatedAt: a.updated_at,
       courseCode,
       userId: a.user_id,
+      votes: a.votes
     };
   }
 );

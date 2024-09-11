@@ -1,5 +1,5 @@
 <script>
-  import { newAnswer } from "../stores/stores";
+  import { newAnswers } from "../stores/stores";
   import { Source } from "../source";
   import VoteBox from "./VoteBox.svelte";
   import InfiniteScroller from "./InfiniteScroller.svelte";
@@ -15,13 +15,13 @@
     new Date(curr.updatedAt) < new Date(prev.updatedAt) ? curr : prev
   ), { updatedAt: "9999-12-31T23:59:59.999Z" }).updatedAt;
 
-  const addNewAnswer = (a) => {
-    if (!a) return;
-    question = { ...question, answers: question.answers+1 };
-    answers = [{ ...a, votes: 0 }, ...answers];
+  const addNewAnswers = (as) => {
+    if (!as) return;
+    question = { ...question, answers: question.answers+as.length, updatedAt: as[0].createdAt };
+    answers = [...as, ...answers];
   };
 
-  $: $newAnswer, addNewAnswer($newAnswer);
+  $: $newAnswers, addNewAnswers($newAnswers);
 
   const fetchMore = async () => {
     if (!oldest) {
@@ -42,9 +42,7 @@
     Source.use(`/sse?question_id=${question.id}`);
 
     Source.addEventListener("ai-generated-answers", (e) => {
-      const aiAnswers = JSON.parse(e.data);
-      answers = [...aiAnswers, ...answers];
-      question = { ...question, answers: question.answers+3 };
+      $newAnswers = JSON.parse(e.data);
     });
   });
 
@@ -69,7 +67,7 @@
         {/if}
       </div>
       <div class="absolute -bottom-0.5 left-10 bg-white rounded-lg px-1 text-xs truncate border-b shadow-sm">
-        {new Date(a.updatedAt).toLocaleString()}
+        {new Date(a.updatedAt).toLocaleString("en-GB")}
       </div>
     </div>
   {/each}

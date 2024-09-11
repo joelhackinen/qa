@@ -27,4 +27,4 @@ const newStore = (defaultValue=null) => {
 };
 
 export const newQuestion = newStore();
-export const newAnswer = newStore();
+export const newAnswers = newStore();
