@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sse-server-deployment
+spec:
+  selector:
+    matchLabels:
+      app: sse-server
+  template:
+    metadata:
+      labels:
+        app: sse-server
+    spec:
+      containers:
+      - name: sse-server
+        image: sse-server:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 4000
+        env:
+        - name: PGPASS
+          valueFrom:
+            secretKeyRef:
+              name: qa-api-database-cluster-app
+              key: pgpass
+              optional: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sse-server
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 4000
+    targetPort: 4000
+    protocol: TCP
+  selector:
+    app: sse-server
