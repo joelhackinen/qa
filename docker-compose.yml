@@ -5,9 +5,10 @@ volumes:
 
 services:
   nginx:
-    image: nginx:latest
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    image: nginx
     depends_on:
       - qa-api
       - qa-ui

@@ -2,9 +2,10 @@ version: "3.4"
 
 services:
   nginx:
-    image: nginx:latest
-    volumes:
-      - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
+    build:
+      context: nginx
+      dockerfile: Dockerfile.prod
+    image: nginx-prod
     depends_on:
       - qa-api
       - qa-ui
