@@ -50,7 +50,7 @@ services:
     expose:
       - 7000
     deploy:
-      replicas: 3
+      replicas: 1
 
   sse-server:
     build: sse-server
@@ -95,9 +95,7 @@ services:
       - ./e2e-playwright/tests:/e2e-playwright/tests
 
   redis:
-    image: redis:7.4.0
-    command: redis-server /usr/local/etc/redis/redis.conf
-    volumes:
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    build: redis
+    image: redis
     expose:
       - 6379
