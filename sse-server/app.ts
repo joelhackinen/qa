@@ -23,7 +23,7 @@ worker.onmessage = ({ data }: MessageEvent) => {
   }
 };
 
-router.get("/", async (ctx) => {
+router.get("/sse", async (ctx) => {
   const questionIdParam = ctx.request.url.searchParams.get("question_id");
 
   const possibleQuestionId = toNumber(questionIdParam);
