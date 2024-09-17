@@ -5,6 +5,7 @@ metadata:
   labels:
     app: llm-api
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: llm-api
