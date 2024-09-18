@@ -1,5 +1,5 @@
 <script>
-  import { userUuid, newQuestion } from "../stores/stores";
+  import { userUuid } from "../stores/stores";
   import TextArea from "./TextArea.svelte";
 
   export let courseCode;
@@ -21,7 +21,6 @@
     }
 
     question = "";
-    $newQuestion = data;
   };
 </script>
 

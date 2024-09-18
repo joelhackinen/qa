@@ -1,5 +1,5 @@
 ## Application structure
-The application contains seven different services:
+The application contains eight different services:
   1. redis
     - utilized for:
       - caching database queries
@@ -8,8 +8,8 @@ The application contains seven different services:
   2. llm-api
     - generates the answers with facebook/opt-125m -model
   3. sse-server
-    - interacts with llm-api and broadcasts the AI-generated answers to appropriate clients
-    - utilizes web worker API to listen for requests to form a SSE connection and to consume a Redis stream simultaneously
+    - subscribes to "answers" and "questions" channel
+    - broadcasts new answers and questions to clients
   4. qa-ui
     - implemented with Astro and Svelte
     - serves the user interface to the client
@@ -21,6 +21,9 @@ The application contains seven different services:
     - reverse proxy and load balancer
   7. flyway
     - database migrations
+  8. stream-consumer
+    - reads new entries of questions from a stream and interacts with llm-api
+    - publishes new AI-generated answers to "answers" channel which is subscribed by sse-server
 
 ## Possible improvements and known flaws
 - The whole app could be split into smaller chunks so that individual, more burdened parts of it could be scaled on demand

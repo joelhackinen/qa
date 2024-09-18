@@ -24,6 +24,7 @@ services:
       - database
       - flyway
       - redis
+      - stream-consumer
     env_file:
       - project.env
     deploy:
@@ -43,6 +44,7 @@ services:
       - 3000
     depends_on:
       - qa-api
+      - sse-server
     deploy:
       restart_policy:
         condition: on-failure
@@ -73,6 +75,29 @@ services:
       - qa-api
       - llm-api
     deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+        delay: "5s"
+        max_attempts: 5
+        window: "30s"
+  
+  stream-consumer:
+    build:
+      context: stream-consumer
+      dockerfile: Dockerfile.prod
+    image: stream-consumer-prod
+    restart: "on-failure"
+    expose:
+      - 5000
+    env_file:
+      - project.env
+    depends_on:
+      - llm-api
+      - database
+      - redis
+    deploy:
+      replicas: 3
       restart_policy:
         condition: on-failure
         delay: "5s"

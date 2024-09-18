@@ -55,13 +55,7 @@ router.post("/questions/:courseCode",
         to_char(updated_at, 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') AS updated_at,
         course_code
     ;`;
-
-    await rateLimitClient.SET(`question-${state.user}`, `${q.created_at}`);
-    
-    await serviceClient.XADD("ai_gen_answers", "*", { question: JSON.stringify(q) });
-
-    response.status = 200;
-    response.body = {
+    const newQuestion = {
       id: q.id,
       body: q.body,
       createdAt: q.created_at,
@@ -70,6 +64,16 @@ router.post("/questions/:courseCode",
       votes: 0,
       answers: 0,
     };
+
+    await rateLimitClient.SET(`question-${state.user}`, `${q.created_at}`);
+    
+    await serviceClient.PUBLISH("questions", JSON.stringify(newQuestion));
+    await serviceClient.XADD("ai_gen_answers", "*", { question: JSON.stringify(q) });
+    await serviceClient.XADD("ai_gen_answers", "*", { question: JSON.stringify(q) });
+    await serviceClient.XADD("ai_gen_answers", "*", { question: JSON.stringify(q) });
+
+    response.status = 200;
+    response.body = newQuestion;
   },
 );
 

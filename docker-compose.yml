@@ -28,6 +28,7 @@ services:
       - database
       - flyway
       - redis
+      - stream-consumer
     env_file:
       - project.env
 
@@ -42,6 +43,7 @@ services:
       - 3000
     depends_on:
       - qa-api
+      - sse-server
 
   llm-api:
     build: llm-api
@@ -64,8 +66,32 @@ services:
     env_file:
       - project.env
     depends_on:
-      - qa-api
+      - redis
+    deploy:
+      replicas: 2
+  
+  stream-consumer:
+    build: stream-consumer
+    image: stream-consumer
+    restart: "on-failure"
+    volumes:
+      - ./stream-consumer/:/app
+      - ./app-cache/:/app-cache
+    expose:
+      - 5000
+    env_file:
+      - project.env
+    depends_on:
       - llm-api
+      - database
+      - redis
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+        delay: "5s"
+        max_attempts: 5
+        window: "30s"
 
   database:
     container_name: database-server-dab-p2-99f97847-4398-4a1b-b2e5-d211a33c1e01

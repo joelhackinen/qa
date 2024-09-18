@@ -1,0 +1,13 @@
+FROM denoland/deno:alpine-1.45.5
+
+EXPOSE 4000
+
+WORKDIR /app
+
+COPY deps.ts .
+
+RUN deno cache deps.ts
+
+COPY . .
+
+CMD [ "run", "--unstable", "--allow-net", "--allow-read", "--allow-env", "app.ts" ]

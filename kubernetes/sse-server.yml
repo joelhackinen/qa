@@ -17,13 +17,6 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 4000
-        env:
-        - name: PGPASS
-          valueFrom:
-            secretKeyRef:
-              name: qa-api-database-cluster-app
-              key: pgpass
-              optional: false
 ---
 apiVersion: v1
 kind: Service

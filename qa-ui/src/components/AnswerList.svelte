@@ -41,7 +41,7 @@
   onMount(() => {
     Source.use(`/sse?question_id=${question.id}`);
 
-    Source.addEventListener("ai-generated-answers", (e) => {
+    Source.addEventListener("answers", (e) => {
       $newAnswers = JSON.parse(e.data);
     });
   });

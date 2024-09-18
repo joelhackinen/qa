@@ -29,6 +29,7 @@
     minikube image build -t qa-api -f ./Dockerfile.prod ./qa-api
     minikube image build -t qa-ui -f ./Dockerfile.prod ./qa-ui
     minikube image build -t sse-server -f ./Dockerfile.prod ./sse-server
+    minikube image build -t stream-consumer -f ./Dockerfile.prod ./stream-consumer
     minikube image build -t redis -f ./Dockerfile ./redis
     minikube image build -t llm-api -f ./Dockerfile ./llm-api
     minikube image build -t qa-api-database-migrations -f ./Dockerfile ./flyway

@@ -1,5 +1,5 @@
 <script>
-  import { newAnswers, userUuid } from "../stores/stores";
+  import { userUuid } from "../stores/stores";
   import TextArea from "./TextArea.svelte";
 
   export let courseCode;
@@ -23,7 +23,6 @@
       return alert(data.error);
     }
 
-    $newAnswers = [data];
     answer = "";
   };
 </script>

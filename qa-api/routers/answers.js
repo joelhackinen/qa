@@ -1,7 +1,7 @@
 import { Router } from "../deps.js";
 import { sql } from "../database.js";
 import { getAnswers } from "../services/answerService.js";
-import { rateLimitClient } from "../app.js";
+import { rateLimitClient, serviceClient } from "../app.js";
 
 const router = new Router();
 
@@ -44,10 +44,7 @@ router.post("/answers/:questionId",
         user_id,
         votes
     ;`;
-
-    await rateLimitClient.set(`answer-${state.user}`, `${a.created_at}`);
-
-    response.body = {
+    const newAnswer = {
       id: a.id,
       questionId: a.question_id,
       body: a.body,
@@ -57,6 +54,10 @@ router.post("/answers/:questionId",
       userId: a.user_id,
       votes: a.votes
     };
+
+    await rateLimitClient.SET(`answer-${state.user}`, `${a.created_at}`);
+    await serviceClient.PUBLISH("answers", JSON.stringify(newAnswer));
+    response.body = newAnswer;
   }
 );
 

@@ -2,6 +2,8 @@
   import { newQuestion } from "../stores/stores";
   import VoteBox from "./VoteBox.svelte";
   import InfiniteScroller from "./InfiniteScroller.svelte";
+    import { onDestroy, onMount } from "svelte";
+    import { Source } from "../source";
 
   export let courseCode;
 
@@ -34,6 +36,18 @@
     }
     questions = [...questions, ...newQuestions];
   };
+
+  onMount(() => {
+    Source.use(`/sse?course_code=${courseCode}`);
+
+    Source.addEventListener("questions", (e) => {
+      $newQuestion = JSON.parse(e.data);
+    });
+  });
+
+  onDestroy(() => {
+    Source.quit();
+  })
 </script>
 
 <div class="flex flex-col p-2 gap-4 {$$restProps.class}" id="question-list">
