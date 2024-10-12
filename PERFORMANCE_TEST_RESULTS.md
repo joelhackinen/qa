@@ -1,7 +1,7 @@
 # Performance test results
 
 Test computer specs:
-  - Windows 11 Education
+  - Windows 11 Education, WSL2
   - CPU: AMD Ryzen R7 5700X3D
   - RAM: 16GB
 
