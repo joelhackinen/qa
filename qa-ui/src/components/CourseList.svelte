@@ -1,5 +1,5 @@
 <script>
-  export let courses;
+  let { courses } = $props();
 </script>
 
 <div class="flex flex-col p-2">

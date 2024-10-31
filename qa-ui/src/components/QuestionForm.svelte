@@ -2,8 +2,9 @@
   import { userUuid } from "../stores/stores";
   import TextArea from "./TextArea.svelte";
 
-  export let courseCode;
-  let question = "";
+  let { courseCode } = $props();
+  let question = $state("");
+  let resetTextAreaHeight = $state(() => {})
 
   const handleSendQuestion = async () => {
     const response = await fetch(`/api/questions/${courseCode}`, {
@@ -21,11 +22,12 @@
     }
 
     question = "";
+    resetTextAreaHeight();
   };
 </script>
 
 <div class="flex flex-row gap-2 items-center w-full px-2 py-1">
-  <TextArea bind:body={question} id="question-input" label="Add a question to {courseCode.toUpperCase()}" maxLength=500 class="peer" />
+  <TextArea bind:body={question} bind:resetTextAreaHeight={resetTextAreaHeight} id="question-input" label="Add a question to {courseCode.toUpperCase()}" maxLength=500 class="peer" />
   <button
     id="send-question-button"
     class="
@@ -33,7 +35,7 @@
       transition-all disabled:bg-slate-500 mb-1
     "
     disabled={!question}
-    on:click={handleSendQuestion}
+    onclick={handleSendQuestion}
   >
     Send
   </button>

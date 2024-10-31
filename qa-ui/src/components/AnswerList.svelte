@@ -1,19 +1,23 @@
 <script>
+  import { userUuid } from "../stores/stores";
   import { newAnswers } from "../stores/stores";
   import { Source } from "../source";
   import VoteBox from "./VoteBox.svelte";
   import InfiniteScroller from "./InfiniteScroller.svelte";
   import { onDestroy, onMount } from "svelte";
 
-  /** @type {Array}*/
-  export let answers;
-  export let question;
+  let { answers=$bindable(), question=$bindable() } = $props();
 
-  let oldest = "";
+  const oldest = $derived(answers.reduce((prev, curr) => (
+    new Date(curr.updatedAt) < new Date(prev.updatedAt)
+    ? curr
+    : prev
+  ), { updatedAt: "9999-12-31T23:59:59.999Z" }).updatedAt
+  );
 
-  $: oldest = answers.reduce((prev, curr) => (
-    new Date(curr.updatedAt) < new Date(prev.updatedAt) ? curr : prev
-  ), { updatedAt: "9999-12-31T23:59:59.999Z" }).updatedAt;
+  $effect(() => {
+    addNewAnswers($newAnswers)
+  });
 
   const addNewAnswers = (as) => {
     if (!as) return;
@@ -21,21 +25,29 @@
     answers = [...as, ...answers];
   };
 
-  $: $newAnswers, addNewAnswers($newAnswers);
-
   const fetchMore = async () => {
-    if (!oldest) {
-      console.log("No older answers to fetch");
-      return;
-    }
+    console.log("fetching more answers");
     const response = await fetch(`/api/answers/${question.id}?from=${oldest}`);
     const newAnswers = await response.json();
 
-    if (newAnswers.length === 0) {
-      oldest = undefined;
-      return;
-    }
     answers = [...answers, ...newAnswers];
+  };
+
+  const handleVote = async (votedA, value) => {
+    const response = await fetch(`/api/vote`, {
+      method: "post",
+      body: JSON.stringify({
+        userId: $userUuid,
+        votableId: votedA.id,
+        votableType: "answer",
+        voteValue: value,
+      }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      return alert(data.error);
+    }
+    answers = answers.map((a) => a.id === votedA.id ? { ...a, votes: votedA.votes+data.voteValue, updatedAt: data.votedAt } : A);
   };
 
   onMount(() => {
@@ -57,7 +69,7 @@
     <div class="relative py-1">
       <div class="flex gap-x-2 items-center border rounded-md pl-2 pr-4 py-1 shadow-sm">
         <div class="flex flex-grow gap-x-2 items-center">
-          <VoteBox bind:item={a} type="answer" />
+          <VoteBox item={a} {handleVote} />
           <div class="break-words">
             {a.body}
           </div>
@@ -71,5 +83,5 @@
       </div>
     </div>
   {/each}
-  <InfiniteScroller on:bottom={fetchMore} />
+  <InfiniteScroller onVisible={fetchMore} />
 </div>

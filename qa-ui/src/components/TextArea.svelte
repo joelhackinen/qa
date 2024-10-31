@@ -1,11 +1,11 @@
 <script>
-  export let id;
-  export let label;
-  export let maxLength;
-  export let body;
-  export let focusHeight = 120;
+  let { id, label, maxLength, body=$bindable(), focusHeight=120, className, resetTextAreaHeight=$bindable() } = $props();
+  const remaining = $derived(maxLength - body.length);
+  let thisElement = $state();
 
-  $: remaining = maxLength - body.length;
+  $effect(() => {
+    resetTextAreaHeight = () => { adjustHeight({ currentTarget: thisElement }) };
+  });
 
   const adjustHeight = ({ currentTarget }) => {
     currentTarget.style.height = "auto";
@@ -17,7 +17,7 @@
   };
 </script>
 
-<div class="relative w-full px-2 py-4 truncate {$$restProps.class}">
+<div class="relative w-full px-2 py-4 truncate {className}">
   <textarea
     style="--focus-height: {focusHeight}px"
     class="
@@ -30,10 +30,12 @@
     name={id}
     maxlength="{maxLength}"
     bind:value={body}
-    on:input={adjustHeight}
+    bind:this={thisElement}
+    oninput={adjustHeight}
     placeholder=""
     spellcheck="false"
-  />
+  >
+  </textarea>
   <label
     for={id}
     class="

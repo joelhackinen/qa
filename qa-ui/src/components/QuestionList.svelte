@@ -1,40 +1,50 @@
 <script>
+  import { userUuid } from "../stores/stores";
   import { newQuestion } from "../stores/stores";
   import VoteBox from "./VoteBox.svelte";
   import InfiniteScroller from "./InfiniteScroller.svelte";
-    import { onDestroy, onMount } from "svelte";
-    import { Source } from "../source";
+  import { onDestroy, onMount } from "svelte";
+  import { Source } from "../source";
 
-  export let courseCode;
+  let { courseCode, questions=$bindable() } = $props();
 
-  /** @type {Array}*/
-  export let questions;
-  let oldest = "";
-
-  $: oldest = questions.reduce((prev, curr) => (
+  const oldest = $derived(questions.reduce((prev, curr) => (
     new Date(curr.updatedAt) < new Date(prev.updatedAt) ? curr : prev
-  ), { updatedAt: "9999-12-31T23:59:59.999Z" }).updatedAt;
+    ), { updatedAt: "9999-12-31T23:59:59.999Z" }).updatedAt
+  );
+
+  $effect(() => {
+    addNewQuestion($newQuestion)
+  });
 
   const addNewQuestion = (q) => {
     if (!q) return;
     questions = [q, ...questions];
   };
 
-  $: $newQuestion, addNewQuestion($newQuestion);
-
   const fetchMore = async () => {
-    if (!oldest) {
-      console.log("No older questions to fetch");
-      return;
-    }
+    console.log("fetching more questions");
     const response = await fetch(`/api/questions/${courseCode}?from=${oldest}`);
     const newQuestions = await response.json();
 
-    if (newQuestions.length === 0) {
-      oldest = undefined;
-      return;
-    }
     questions = [...questions, ...newQuestions];
+  };
+
+  const handleVote = async (votedQ, value) => {
+    const response = await fetch(`/api/vote`, {
+      method: "post",
+      body: JSON.stringify({
+        userId: $userUuid,
+        votableId: votedQ.id,
+        votableType: "question",
+        voteValue: value,
+      }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      return alert(data.error);
+    }
+    questions = questions.map((q) => q.id === votedQ.id ? { ...q, votes: votedQ.votes+data.voteValue, updatedAt: data.votedAt } : q)
   };
 
   onMount(() => {
@@ -50,11 +60,11 @@
   })
 </script>
 
-<div class="flex flex-col p-2 gap-4 {$$restProps.class}" id="question-list">
+<div class="flex flex-col p-2 gap-4" id="question-list">
   {#each questions as q}
     <div class="flex flex-col border rounded-md px-4 py-6 gap-2 shadow-md hover:bg-gray-100">
       <div class="flex flex-grow items-center gap-4">
-        <VoteBox bind:item={q} type="question" />
+        <VoteBox item={q} {handleVote} />
         <a href={`${q.courseCode.toLowerCase()}/${q.id}`} class="font-semibold flex-grow truncate hover:underline" name="answer-link">
           {q.body}
         </a>
@@ -79,5 +89,5 @@
       </div>
     </div>
   {/each}
-  <InfiniteScroller on:bottom={fetchMore} />
+  <InfiniteScroller onVisible={fetchMore} />
 </div>
