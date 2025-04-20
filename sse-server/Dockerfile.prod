@@ -1,13 +1,16 @@
-FROM denoland/deno:alpine-1.46.3
-
-EXPOSE 4000
+FROM denoland/deno:alpine-2.2.11 AS builder
 
 WORKDIR /app
 
-COPY deps.ts .
-
-RUN deno cache deps.ts
-
 COPY . .
 
-CMD [ "run", "--unstable", "--allow-net", "--allow-read", "--allow-env", "app.ts" ]
+RUN deno install --entrypoint app.ts
+
+
+FROM denoland/deno:alpine-2.2.11
+
+WORKDIR /app
+
+COPY --from=builder /app .
+
+CMD [ "task", "start" ]

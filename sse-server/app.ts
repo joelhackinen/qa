@@ -1,5 +1,10 @@
 import { createClient } from "./deps.ts";
-import { Application, Router, ServerSentEvent, ServerSentEventTarget } from "./deps.ts";
+import {
+  Application,
+  Router,
+  ServerSentEvent,
+  ServerSentEventTarget,
+} from "./deps.ts";
 import { toNumber } from "./util.ts";
 
 const clientsA = new Map<ServerSentEventTarget, number>();
