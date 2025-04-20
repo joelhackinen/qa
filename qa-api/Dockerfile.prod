@@ -1,13 +1,18 @@
-FROM denoland/deno:alpine-1.46.3
+FROM denoland/deno:alpine-2.2.11 AS builder
 
 EXPOSE 7777
 
 WORKDIR /app
 
-COPY deps.js .
-
-RUN deno cache deps.js
-
 COPY . .
 
-CMD [ "run", "--unstable", "--allow-net", "--allow-env", "app.js" ]
+RUN deno install --entrypoint app.js
+
+
+FROM denoland/deno:alpine-2.2.11
+
+WORKDIR /app
+
+COPY --from=builder /app .
+
+CMD [ "task", "start" ]

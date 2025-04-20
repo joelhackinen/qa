@@ -8,27 +8,29 @@ const router = new Router();
 router.get("/answers/:questionId", async ({ response, request, params }) => {
   const answers = await getAnswers(
     params.questionId,
-    request.url.searchParams.get("from")
+    request.url.searchParams.get("from"),
   );
   response.body = answers;
 });
 
-router.post("/answers/:questionId",
-  async ({ response, state }, next) => {
-    const lastAnswerTimestamp = await rateLimitClient.get(`answer-${state.user}`);
-    const diff = Date.now() - new Date(lastAnswerTimestamp ?? 0).valueOf();
-  
-    if (diff < 60 * 1000) {
-      response.status = 400;
-      return response.body = { error: `Only one answer per minute. Please try again in ${Number(60 - diff / 1000).toFixed(0)} seconds` };
-    }
-    await next();
-  },
-  async ({ request, response, state }) => {
-    const requestBody = request.body;
-    const { questionId, answer, courseCode } = await requestBody.json();
+router.post("/answers/:questionId", async ({ response, state }, next) => {
+  const lastAnswerTimestamp = await rateLimitClient.get(`answer-${state.user}`);
+  const diff = Date.now() - new Date(lastAnswerTimestamp ?? 0).valueOf();
 
-    const [a] = await sql`
+  if (diff < 60 * 1000) {
+    response.status = 400;
+    return response.body = {
+      error: `Only one answer per minute. Please try again in ${
+        Number(60 - diff / 1000).toFixed(0)
+      } seconds`,
+    };
+  }
+  await next();
+}, async ({ request, response, state }) => {
+  const requestBody = request.body;
+  const { questionId, answer, courseCode } = await requestBody.json();
+
+  const [a] = await sql`
       INSERT INTO
         answers (question_id, body, user_id)
       VALUES (
@@ -44,21 +46,20 @@ router.post("/answers/:questionId",
         user_id,
         votes
     ;`;
-    const newAnswer = {
-      id: a.id,
-      questionId: a.question_id,
-      body: a.body,
-      createdAt: a.created_at,
-      updatedAt: a.updated_at,
-      courseCode,
-      userId: a.user_id,
-      votes: a.votes
-    };
+  const newAnswer = {
+    id: a.id,
+    questionId: a.question_id,
+    body: a.body,
+    createdAt: a.created_at,
+    updatedAt: a.updated_at,
+    courseCode,
+    userId: a.user_id,
+    votes: a.votes,
+  };
 
-    await rateLimitClient.SET(`answer-${state.user}`, `${a.created_at}`);
-    await serviceClient.PUBLISH("answers", JSON.stringify(newAnswer));
-    response.body = newAnswer;
-  }
-);
+  await rateLimitClient.SET(`answer-${state.user}`, `${a.created_at}`);
+  await serviceClient.PUBLISH("answers", JSON.stringify(newAnswer));
+  response.body = newAnswer;
+});
 
 export default router;

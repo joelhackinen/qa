@@ -1,6 +1,6 @@
 import { sql } from "../database.js";
 
-export const getAnswers = async (questionId, olderThanThis=null) => {
+export const getAnswers = async (questionId, olderThanThis = null) => {
   const rows = await sql`
     SELECT
       id,
@@ -20,7 +20,7 @@ export const getAnswers = async (questionId, olderThanThis=null) => {
     LIMIT 20;
   ;`;
 
-  return rows.map(a => ({
+  return rows.map((a) => ({
     id: a.id,
     body: a.body,
     createdAt: a.created_at,

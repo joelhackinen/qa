@@ -104,7 +104,7 @@ services:
 
   database:
     container_name: database-server-dab-p2-99f97847-4398-4a1b-b2e5-d211a33c1e01
-    image: postgres:14.1
+    image: postgres:16-alpine3.20
     restart: "unless-stopped"
     env_file:
       - project.env
@@ -124,3 +124,8 @@ services:
     image: redis
     expose:
       - 6379
+      
+  rabbitmq:
+    image: rabbitmq:4.1.0-alpine
+    ports:
+      - "5672:5672"

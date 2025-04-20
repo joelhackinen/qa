@@ -32,5 +32,4 @@ app.use(voteRouter.routes());
 app.use(questionsRouter.routes());
 app.use(answersRouter.routes());
 
-
 await app.listen({ port: 7777, hostname: "0.0.0.0" });

@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "dev": "deno run --watch --allow-net --allow-read --allow-env app.js",
+    "start": "deno run --allow-net --allow-read --allow-env app.js",
+    "format": "deno fmt && deno lint"
+  },
+  "imports": {
+    "@oak/oak": "jsr:@oak/oak@^17.1.4",
+    "postgres": "npm:postgres@3.4.5",
+    "redis": "npm:redis@4.7.0"
+  }
+}
